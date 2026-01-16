@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "658035073347",
+    "project_id": "townway-33689",
+    "storage_bucket": "townway-33689.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658035073347:android:1dd1fee9a2c3ba093a4ff6",
+        "android_client_info": {
+          "package_name": "com.townway"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGpL4rxFIUXMSg-Ouf4a6h6JO-o8wE88c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658035073347:android:17b4686033c8edb93a4ff6",
+        "android_client_info": {
+          "package_name": "com.townway.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGpL4rxFIUXMSg-Ouf4a6h6JO-o8wE88c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658035073347:android:e9e31771b76d2ba03a4ff6",
+        "android_client_info": {
+          "package_name": "com.glowdrop.delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGpL4rxFIUXMSg-Ouf4a6h6JO-o8wE88c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658035073347:android:1bf170d9aedd2ca03a4ff6",
+        "android_client_info": {
+          "package_name": "com.glowdropvendor.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGpL4rxFIUXMSg-Ouf4a6h6JO-o8wE88c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658035073347:android:4cf896ae2f9946b93a4ff6",
+        "android_client_info": {
+          "package_name": "com.glowdropvendor.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGpL4rxFIUXMSg-Ouf4a6h6JO-o8wE88c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
