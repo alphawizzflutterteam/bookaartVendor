@@ -54,7 +54,7 @@
   "my_shop": "My Shop",
   "flash_deals": "Flash Deals",
   "profile": "Profile",
-  "my_order": "My Order",
+  "my_order": "My Booking",
   "language": "Language",
   "logout": "Logout",
   "type_message_here": "Type message here ...",
@@ -728,5 +728,11 @@
   "product_add_failed": "Product add failed",
   "store_secondary_banner": "Store secondary banner",
   "secondary_banner_is_required": "Secondary banner is required",
-  "no_product_found": "No product found"
+  "no_product_found": "No product found",
+
+
+
+  "aadhaar number is required": "Aadhaar number is required",
+  "aadhaar number minimum length": "Aadhaar number minimum 12 digit is required"
+
 }

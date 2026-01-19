@@ -123,14 +123,14 @@ class ThemeChanger extends StatelessWidget {
           height: Dimensions.paddingSizeExtraSmall,
         ),
 
-        SectionItemWidget(
-          icon: Images.bankCard,
-          title: 'bank_info',
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const BankInfoView()));
-          },
-        ),
+        // SectionItemWidget(
+        //   icon: Images.bankCard,
+        //   title: 'bank_info',
+        //   onTap: () {
+        //     Navigator.push(context,
+        //         MaterialPageRoute(builder: (_) => const BankInfoView()));
+        //   },
+        // ),
 
         const SizedBox(
           height: Dimensions.paddingSizeExtraSmall,

@@ -39,7 +39,7 @@ class CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 42,
+      // height: 42,
       width: double.infinity,
       decoration: BoxDecoration(
         border: widget.border
@@ -105,7 +105,7 @@ class CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
               ),
               hintText: widget.hintTxt ?? '',
               contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 15),
               isDense: true,
               filled: true,
               focusedBorder: OutlineInputBorder(
@@ -113,10 +113,30 @@ class CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
                       BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                   borderSide:
                       BorderSide(color: Theme.of(context).primaryColor)),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: Colors.red,
+                  width: 1,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: Colors.redAccent,
+                  width: 1.5,
+                ),
+              ),
+
               fillColor: Colors.white,
               hintStyle:
                   titilliumRegular.copyWith(color: Theme.of(context).hintColor),
-              border: InputBorder.none),
+              // border: InputBorder.none
+          ),
         ),
       ),
     );

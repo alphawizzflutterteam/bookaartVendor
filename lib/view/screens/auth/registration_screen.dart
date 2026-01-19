@@ -331,14 +331,28 @@ class _RegistrationScreenState extends State<RegistrationScreen>
                                                       'password_is_mismatch',
                                                       context),
                                                   context);
-                                            } else if (authProvider.shopNameController.text.trim().isEmpty) {
+                                            }
+                                            else if (authProvider.shopNameController.text.trim().isEmpty) {
                                               showCustomSnackBar(getTranslated('shop_name_is_required', context), context);
-                                            } else if (authProvider.shopAddressController.text.trim().isEmpty) {
+                                            }else if (authProvider.adharController.text.trim().isEmpty) {
+                                              showCustomSnackBar(getTranslated('aadhaar number is required',context), context);
+                                            }
+                                            // else if (authProvider.phoneController.text.trim().length <
+                                            //     12) {
+                                            //   showCustomSnackBar(
+                                            //       getTranslated(
+                                            //           'aadhaar number minimum length',
+                                            //           context),
+                                            //       context);
+                                            // }
+                                            else if (authProvider.shopAddressController.text.trim().isEmpty) {
                                               showCustomSnackBar(getTranslated('shop_address_is_required', context), context);
                                             } else if (Provider.of<SellerProvider>(context, listen: false).selectedSellerCate ==null) {
                                               showCustomSnackBar('please select category', context);
                                             } else if (Provider.of<SellerProvider>(context, listen: false).selectedSellerSubCate ==null) {
                                               showCustomSnackBar('please select sub category', context);
+                                            } else if (authProvider.shopLogo ==null) {
+                                              showCustomSnackBar('Business Logo is Required', context);
                                             }
                                             else
                                             /*else if (authProvider.shopLogo == null) {
@@ -359,18 +373,28 @@ class _RegistrationScreenState extends State<RegistrationScreen>
                                                       'secondary_banner_is_required',
                                                       context),
                                                   context);
-                                            } else if (authProvider.aadharCard == null) {
+                                            } else */
+                                            if (authProvider.aadharCard == null) {
+
                                               showCustomSnackBar(
-                                                  "Please Add Aadhar card",
+                                                  "Please Add Front Aadhar card",
                                                   context);
-                                            } else if (authProvider.panCard == null) {
+                                            }
+                                            if (authProvider.aadharBack == null) {
+
                                               showCustomSnackBar(
-                                                  "Please Add Pan card",
+                                                  "Please Add Back Aadhar card",
                                                   context);
-                                            } else*/
-                                            if (authProvider.gstController.text.trim().isEmpty) {
-                                              showCustomSnackBar("please add gst number", context);
-                                            } else {
+                                            }
+                                            // else if (authProvider.panCard == null) {
+                                            //   showCustomSnackBar(
+                                            //       "Please Add Pan card",
+                                            //       context);
+                                            // } else*/
+                                            // if (authProvider.gstController.text.trim().isEmpty) {
+                                            //   showCustomSnackBar("please add gst number", context);
+                                            // }
+                                            else {
                                               RegisterModel registerModel = RegisterModel(
                                                   fName: authProvider.firstNameController.text.trim(),
                                                   lName: authProvider.lastNameController.text.trim(),
