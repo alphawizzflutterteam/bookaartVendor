@@ -1,17 +1,12 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/helper/network_info.dart';
 import 'package:sixvalley_vendor_app/provider/auth_provider.dart';
 import 'package:sixvalley_vendor_app/provider/splash_provider.dart';
-import 'package:sixvalley_vendor_app/utill/app_constants.dart';
-import 'package:sixvalley_vendor_app/utill/color_resources.dart';
-import 'package:sixvalley_vendor_app/utill/dimensions.dart';
-import 'package:sixvalley_vendor_app/utill/images.dart';
-import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/screens/auth/auth_screen.dart';
 import 'package:sixvalley_vendor_app/view/screens/dashboard/dashboard_screen.dart';
-import 'package:sixvalley_vendor_app/view/screens/splash/widget/splash_painter.dart';
 
 class SplashScreen extends StatefulWidget {
   final int? orderId;
@@ -52,35 +47,20 @@ class SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         //   backgroundColor: Theme.of(context).primaryColor,
         body: Stack(
-      clipBehavior: Clip.none,
       children: [
-        // SizedBox(
-        //   width: MediaQuery.of(context).size.width,
-        //   height: MediaQuery.of(context).size.height,
-        //   child: CustomPaint(
-        //     painter: SplashPainter(),
-        //   ),
-        // ),
-
+        SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Image.asset(
+            "assets/image/bakground.png",
+            fit: BoxFit.cover,
+          ),
+        ),
         Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Hero(
-                  tag: 'logo',
-                  child: Image.asset(
-                    Images.logoWhite,
-                    width: 150,
-                  )),
-              const SizedBox(
-                height: Dimensions.paddingSizeExtraLarge,
-              ),
-              Text(
-                AppConstants.appName,
-                style: titilliumBold.copyWith(
-                    fontSize: 15, color: ColorResources.primaryMaterial),
-              ),
-            ],
+          child: Image.asset(
+            "assets/image/logo_image.png",
+            height: 170,
+            width: 170,
           ),
         ),
       ],

@@ -2,12 +2,12 @@ import 'package:sixvalley_vendor_app/data/model/response/language_model.dart';
 import 'package:sixvalley_vendor_app/utill/images.dart';
 
 class AppConstants {
-  static const String appName = 'Glowdrop Vendor App';
+  static const String appName = 'BookAart Vendor';
   static const String mapKey = 'AIzaSyAmJixElxZzVtD26BWhCaGC1S3HMHsGDLc';
   static const String appVersion = '1.0';
-  static const String companyName = 'Glowdrop Vendor';
+  static const String companyName = 'BookAart Vendor';
   //static const String baseUrl = 'https://townway.alphawizzserver.com';
-  static const String baseUrl = 'https://glowdrop.in';
+  static const String baseUrl = 'https://bookaart.developmentalphawizz.com';
   static const String loginUri = '/api/v3/seller/auth/login';
   static const String configUri = '/api/v1/config';
   static const String sellerUri = '/api/v3/seller/seller-info';
@@ -22,20 +22,19 @@ class AppConstants {
 
   ///Booking Module
   static const String bookingListUri = '/api/v3/seller/services/my_booking';
-  static const String updateBookingStatusUri = '/api/v3/seller/services/update_booking_status';
-  static const String updateBookingStatus = '/api/v3/seller/services/update_booking_status';
-  static const String updatePaymentStatus = '/api/v3/seller/services/update-payment-status';
+  static const String updateBookingStatusUri =
+      '/api/v3/seller/services/update_booking_status';
+  static const String updateBookingStatus =
+      '/api/v3/seller/services/update_booking_status';
+  static const String updatePaymentStatus =
+      '/api/v3/seller/services/update-payment-status';
   static const String deleteServiceUri = '/api/v3/seller/services/delete';
   static const String getServiceUri = '/api/v3/seller/services/list';
-
-
-
 
   ///Service
 
   static const String addServiceUri = '/api/v3/seller/services/add';
   static const String updateServiceUri = '/api/v3/seller/services/update';
-
 
   static const String orderDetails = '/api/v3/seller/orders/';
   static const String updateOrderStatus =
