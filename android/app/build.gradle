@@ -41,7 +41,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 android {
-    namespace "com.glowdropvendor.app"
+    namespace "com.bookartvendor.app"
     compileSdkVersion 35
     ndkVersion "28.2.13676358"
     aaptOptions {
@@ -53,7 +53,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.glowdropvendor.app"
+        applicationId "com.bookartvendor.app"
         minSdkVersion 23
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()

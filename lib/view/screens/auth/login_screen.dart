@@ -6,18 +6,14 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/provider/auth_provider.dart';
-import 'package:sixvalley_vendor_app/provider/splash_provider.dart';
 import 'package:sixvalley_vendor_app/utill/color_resources.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
-import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_button.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_snackbar.dart';
-import 'package:sixvalley_vendor_app/view/base/textfeild/custom_text_feild.dart';
 import 'package:sixvalley_vendor_app/view/screens/auth/registration_screen.dart';
 import 'package:sixvalley_vendor_app/view/screens/dashboard/dashboard_screen.dart';
 import 'package:sixvalley_vendor_app/view/screens/forgetPassword/forget_password_screen.dart';
-import 'package:sixvalley_vendor_app/view/screens/more/html_view_screen.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../utill/app_constants.dart';
@@ -154,15 +150,15 @@ class SignInWidgetState extends State<SignInWidget> {
               _loginMethod != 'password'
                   ? otpLayout()
                   : LabeledTextField(
-                label: "Password",
-                hint: getTranslated('password_hint', context) ?? "",
-                controller: _passwordController,
-                inputFormatters: [],
-                textInputAction:  TextInputAction.done,
-                obSecure: true,
-              ),
+                      label: "Password",
+                      hint: getTranslated('password_hint', context) ?? "",
+                      controller: _passwordController,
+                      inputFormatters: [],
+                      textInputAction: TextInputAction.done,
+                      obSecure: true,
+                    ),
 
-             /* Container(
+              /* Container(
                       margin: const EdgeInsets.only(
                           left: Dimensions.paddingSizeLarge,
                           right: Dimensions.paddingSizeLarge,
@@ -203,7 +199,7 @@ class SignInWidgetState extends State<SignInWidget> {
 
               Container(
                 margin: const EdgeInsets.only(
-                    left: 24,top: 5, right: Dimensions.paddingSizeLarge),
+                    left: 24, top: 5, right: Dimensions.paddingSizeLarge),
                 child: Consumer<AuthProvider>(
                   builder: (context, authProvider, child) => InkWell(
                     onTap: () => authProvider.toggleRememberMe(),
@@ -242,10 +238,11 @@ class SignInWidgetState extends State<SignInWidget> {
                         const Spacer(),
                         InkWell(
                           onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) =>
-                                      const ForgetPasswordScreen())),
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ForgetPasswordScreen(),
+                            ),
+                          ),
                           child: Text(
                               getTranslated('forget_password', context)!,
                               style: robotoRegular.copyWith(
@@ -266,7 +263,8 @@ class SignInWidgetState extends State<SignInWidget> {
                         String mobile = _mobileController!.text.trim();
                         String password = _passwordController!.text.trim();
                         if (mobile.isEmpty) {
-                          showCustomSnackBar(// getTranslated('enter_email_address', context),
+                          showCustomSnackBar(
+                              // getTranslated('enter_email_address', context),
                               'Enter Mobile Number',
                               context);
                         } else if (mobile.length != 10) {
@@ -308,40 +306,41 @@ class SignInWidgetState extends State<SignInWidget> {
                         //     }); /////
                         //   }
                         // } else {
-                          if (password.isEmpty) {
-                            showCustomSnackBar(
-                                getTranslated('enter_password', context),
-                                context);
-                          }
-                          else if (password.length < 6) {
-                            showCustomSnackBar(
-                                getTranslated('password_should_be', context),
-                                context);
-                          }
-                          else {
-                            authProvider
-                                .login(context,
-                                mobile: mobile,
-                                password: password,
-                                isOtpLogin: false,
-                                otp: otp)
-                                .then((status) async {
-                              if (status.response!.statusCode == 200) {
-                                if (authProvider.isActiveRememberMe) {
-                                  authProvider.saveUserNumberAndPassword(
-                                      mobile, password);
-                                } else {
-                                  authProvider.clearUserEmailAndPassword();
-                                }
-                                Navigator.of(context).pushReplacement( MaterialPageRoute( builder: (_) => const DashboardScreen()));
+                        if (password.isEmpty) {
+                          showCustomSnackBar(
+                              getTranslated('enter_password', context),
+                              context);
+                        } else if (password.length < 6) {
+                          showCustomSnackBar(
+                              getTranslated('password_should_be', context),
+                              context);
+                        } else {
+                          authProvider
+                              .login(context,
+                                  mobile: mobile,
+                                  password: password,
+                                  isOtpLogin: false,
+                                  otp: otp)
+                              .then((status) async {
+                            if (status.response!.statusCode == 200) {
+                              if (authProvider.isActiveRememberMe) {
+                                authProvider.saveUserNumberAndPassword(
+                                    mobile, password);
+                              } else {
+                                authProvider.clearUserEmailAndPassword();
                               }
-                            });
-                          }
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (_) => const DashboardScreen()));
+                            }
+                          });
+                        }
                         // }
                       },
                       text: _loginMethod == 'password' || isOtpReceived == true
                           ? getTranslated('login', context)!
-                          : 'Send OTP',)
+                          : 'Send OTP',
+                    )
                   : Center(
                       child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
@@ -354,7 +353,8 @@ class SignInWidgetState extends State<SignInWidget> {
                     vertical: Dimensions.paddingSizeDefault),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const RegistrationScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => const RegistrationScreen()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -374,7 +374,7 @@ class SignInWidgetState extends State<SignInWidget> {
               ),
               // : const SizedBox(),
 
-             /* Padding(
+              /* Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: Dimensions.paddingSizeBottomSpace),
                 child: InkWell(
@@ -442,8 +442,7 @@ class SignInWidgetState extends State<SignInWidget> {
     try {
       var data = {"phone": _mobileController!.text};
       Response response = await post(
-        Uri.parse(
-            "${AppConstants.baseUrl}/api/v3/seller/auth/send-otp"),
+        Uri.parse("${AppConstants.baseUrl}/api/v3/seller/auth/send-otp"),
         body: data,
       ).timeout(
         const Duration(seconds: 10),

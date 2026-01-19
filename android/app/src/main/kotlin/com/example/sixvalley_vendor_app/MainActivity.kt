@@ -1,4 +1,4 @@
-package com.glowdropvendor.app
+package com.bookartvendor.app
 
 import io.flutter.embedding.android.FlutterActivity
 

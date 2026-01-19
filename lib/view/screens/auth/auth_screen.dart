@@ -3,15 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/provider/auth_provider.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
-import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/screens/auth/login_screen.dart';
-import 'package:sixvalley_vendor_app/view/screens/auth/widgets/signin_with_email.dart';
 
 import '../../../utill/color_resources.dart';
 
 class AuthScreen extends StatelessWidget {
-  const AuthScreen({Key? key,this.initialPage = 0}) : super(key: key);
+  const AuthScreen({Key? key, this.initialPage = 0}) : super(key: key);
   final int initialPage;
 
   @override
@@ -66,7 +64,7 @@ class AuthScreen extends StatelessWidget {
                 ],
               ),*/
               _buildHeaderSection(context),
-              Padding (
+              Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: Dimensions.paddingSizeDefault, vertical: 5),
                 child: Text(
@@ -142,20 +140,18 @@ class AuthScreen extends StatelessWidget {
               SizedBox(
                 height: 350, // IMPORTANT for PageView
                 child: Consumer<AuthProvider>(
-                  builder: (context, authProvider, child) =>
-                      PageView.builder(
-                        controller: pageController,
-                        itemCount: 1,
-                        onPageChanged: (index) {
-                          authProvider.updateSelectedIndex(index);
-                        },
-                        itemBuilder: (context, index) {
-                          return index == 0
-                              ? const SignInWidget() //const SigninWithMobile()
-                              : const SignInWidget();
-
-                        },
-                      ),
+                  builder: (context, authProvider, child) => PageView.builder(
+                    controller: pageController,
+                    itemCount: 1,
+                    onPageChanged: (index) {
+                      authProvider.updateSelectedIndex(index);
+                    },
+                    itemBuilder: (context, index) {
+                      return index == 0
+                          ? const SignInWidget() //const SigninWithMobile()
+                          : const SignInWidget();
+                    },
+                  ),
                 ),
               ),
               /*Padding(
@@ -165,10 +161,7 @@ class AuthScreen extends StatelessWidget {
                       style: titilliumBold.copyWith(
                           fontSize: Dimensions.fontSizeOverlarge))),*/
 
-
               //  const SizedBox(height: Dimensions.paddingSizeLarge),
-
-
             ],
           ),
         );
@@ -183,7 +176,7 @@ class AuthScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 40),
           Image.asset(
-            "assets/image/backgroundlogo.png",
+            "assets/image/logo_image.png",
             height: 180,
             fit: BoxFit.contain,
           ),

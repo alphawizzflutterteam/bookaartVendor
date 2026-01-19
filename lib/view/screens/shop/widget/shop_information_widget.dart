@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
-import 'package:sixvalley_vendor_app/provider/profile_provider.dart';
 import 'package:sixvalley_vendor_app/provider/shop_info_provider.dart';
 import 'package:sixvalley_vendor_app/provider/splash_provider.dart';
 import 'package:sixvalley_vendor_app/utill/color_resources.dart';
@@ -178,42 +177,42 @@ class ShopInformationWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: Dimensions.paddingSizeSmall),
-                            child: SizedBox(
-                                width: reviewIconSize,
-                                child: Image.asset(Images.shopProduct)),
-                          ),
-                          Row(
-                            children: [
-                              Consumer<ProfileProvider>(
-                                  builder: (context, profile, _) {
-                                return Text(
-                                  NumberFormat.compact().format(
-                                      profile.userInfoModel!.productCount),
-                                  style: robotoRegular.copyWith(
-                                      color: ColorResources.getSubTitleColor(
-                                          context),
-                                      fontSize: Dimensions.fontSizeDefault),
-                                );
-                              }),
-                              const SizedBox(
-                                width: Dimensions.paddingSizeExtraSmall,
-                              ),
-                              Text(
-                                getTranslated('products', context)!,
-                                style: robotoRegular.copyWith(
-                                    color: ColorResources.getSubTitleColor(
-                                        context),
-                                    fontSize: Dimensions.fontSizeDefault),
-                              )
-                            ],
-                          )
-                        ],
-                      )
+                      // Column(
+                      //   children: [
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(
+                      //           bottom: Dimensions.paddingSizeSmall),
+                      //       child: SizedBox(
+                      //           width: reviewIconSize,
+                      //           child: Image.asset(Images.shopProduct)),
+                      //     ),
+                      //     Row(
+                      //       children: [
+                      //         Consumer<ProfileProvider>(
+                      //             builder: (context, profile, _) {
+                      //           return Text(
+                      //             NumberFormat.compact().format(
+                      //                 profile.userInfoModel!.productCount),
+                      //             style: robotoRegular.copyWith(
+                      //                 color: ColorResources.getSubTitleColor(
+                      //                     context),
+                      //                 fontSize: Dimensions.fontSizeDefault),
+                      //           );
+                      //         }),
+                      //         const SizedBox(
+                      //           width: Dimensions.paddingSizeExtraSmall,
+                      //         ),
+                      //         Text(
+                      //           getTranslated('products', context)!,
+                      //           style: robotoRegular.copyWith(
+                      //               color: ColorResources.getSubTitleColor(
+                      //                   context),
+                      //               fontSize: Dimensions.fontSizeDefault),
+                      //         )
+                      //       ],
+                      //     )
+                      //   ],
+                      // )
                     ],
                   ),
                 )

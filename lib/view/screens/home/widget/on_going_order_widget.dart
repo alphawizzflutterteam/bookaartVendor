@@ -4,7 +4,6 @@ import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/provider/order_provider.dart';
 import 'package:sixvalley_vendor_app/utill/color_resources.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
-import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/order_type_button_head.dart';
 
@@ -14,18 +13,22 @@ class OngoingOrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OrderProvider>(
-      builder: (context, order, child) {
-        return Container(
-          padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            boxShadow: [
-              BoxShadow(color: ColorResources.getPrimary(context).withOpacity(.05),
-                  spreadRadius: -3, blurRadius: 12, offset: Offset.fromDirection(0,6))],
-          ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
-
+    return Consumer<OrderProvider>(builder: (context, order, child) {
+      return Container(
+        padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          boxShadow: [
+            BoxShadow(
+                color: ColorResources.getPrimary(context).withOpacity(.05),
+                spreadRadius: -3,
+                blurRadius: 12,
+                offset: Offset.fromDirection(0, 6))
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             //
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeMedium),
@@ -70,65 +73,79 @@ class OngoingOrderWidget extends StatelessWidget {
             //
             //     ],),
             // ),
-            const SizedBox(height: Dimensions.paddingSizeSmall,),
-            Padding(
-              padding: const EdgeInsets.fromLTRB( Dimensions.paddingSizeDefault,
-                   Dimensions.paddingSizeExtraSmall, Dimensions.paddingSizeDefault,Dimensions.paddingSeven),
-              child: Text(/*getTranslated('on_going_orders', context)!*/'Ongoing Services',
-                style: robotoBold.copyWith(color: Theme.of(context).primaryColor),),
-            ),
+            // const SizedBox(height: Dimensions.paddingSizeSmall,),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB( Dimensions.paddingSizeDefault,
+            //        Dimensions.paddingSizeExtraSmall, Dimensions.paddingSizeDefault,Dimensions.paddingSeven),
+            //   child: Text(/*getTranslated('on_going_orders', context)!*/'Ongoing Services',
+            //     style: robotoBold.copyWith(color: Theme.of(context).primaryColor),),
+            // ),
 
-            order.bookingModel != null ?
-            Consumer<OrderProvider>(
-              builder: (context, orderProvider, child) => Padding(
-                padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall,0, Dimensions.paddingSizeSmall,Dimensions.fontSizeSmall),
-                child: GridView.count(
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  childAspectRatio: (1 / .65),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  children: [
-                    OrderTypeButtonHead(
-                      color: ColorResources.mainCardOneColor(context),
-                      text: getTranslated('pending', context), index: 1,
-                      subText: /*getTranslated('orders', context)*/'Services',
-                      numberOfOrder: orderProvider.businessAnalyticsFilterData?.pending, callback: callback,
+            order.bookingModel != null
+                ? Consumer<OrderProvider>(
+                    builder: (context, orderProvider, child) => Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          Dimensions.paddingSizeSmall,
+                          0,
+                          Dimensions.paddingSizeSmall,
+                          Dimensions.fontSizeSmall),
+                      child: GridView.count(
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: (1 / .65),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        children: [
+                          OrderTypeButtonHead(
+                            color: ColorResources.mainCardOneColor(context),
+                            text: getTranslated('pending', context),
+                            index: 1,
+                            subText: /*getTranslated('orders', context)*/
+                                'Services',
+                            numberOfOrder: orderProvider
+                                .businessAnalyticsFilterData?.pending,
+                            callback: callback,
+                          ),
+
+                          // OrderTypeButtonHead(
+                          //   color: ColorResources.mainCardTwoColor(context),
+                          //   text: getTranslated('processing', context), index: 2,
+                          //   numberOfOrder: orderProvider.businessAnalyticsFilterData?.processing, callback: callback,
+                          //   subText: getTranslated('orders', context),
+                          //
+                          // ),
+
+                          OrderTypeButtonHead(
+                            color: ColorResources.mainCardThreeColor(context),
+                            text: getTranslated('confirmed', context),
+                            index: 7,
+                            subText: /*getTranslated('orders', context)*/
+                                'Services',
+                            numberOfOrder: orderProvider
+                                .businessAnalyticsFilterData?.confirmed,
+                            callback: callback,
+                          ),
+
+                          // OrderTypeButtonHead(
+                          //   color: ColorResources.mainCardFourColor(context),
+                          //   text: getTranslated('out_for_delivery', context), index: 8,
+                          //   subText: '',
+                          //   numberOfOrder: orderProvider.businessAnalyticsFilterData?.outForDelivery, callback: callback,
+                          // ),
+                        ],
+                      ),
                     ),
-
-
-                    // OrderTypeButtonHead(
-                    //   color: ColorResources.mainCardTwoColor(context),
-                    //   text: getTranslated('processing', context), index: 2,
-                    //   numberOfOrder: orderProvider.businessAnalyticsFilterData?.processing, callback: callback,
-                    //   subText: getTranslated('orders', context),
-                    //
-                    // ),
-
-
-                    OrderTypeButtonHead(
-                      color: ColorResources.mainCardThreeColor(context),
-                      text: getTranslated('confirmed', context), index: 7,
-                      subText: /*getTranslated('orders', context)*/'Services',
-                      numberOfOrder: orderProvider.businessAnalyticsFilterData?.confirmed, callback: callback,
-                    ),
-
-
-                    // OrderTypeButtonHead(
-                    //   color: ColorResources.mainCardFourColor(context),
-                    //   text: getTranslated('out_for_delivery', context), index: 8,
-                    //   subText: '',
-                    //   numberOfOrder: orderProvider.businessAnalyticsFilterData?.outForDelivery, callback: callback,
-                    // ),
-                  ],
-                ),
-              ),
-            ) : SizedBox(height: 150,
-                child: Center(child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor)))),
+                  )
+                : SizedBox(
+                    height: 150,
+                    child: Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(
+                                Theme.of(context).primaryColor)))),
             const SizedBox(height: Dimensions.paddingSizeSmall),
-          ],),);
-      }
-    );
+          ],
+        ),
+      );
+    });
   }
 }

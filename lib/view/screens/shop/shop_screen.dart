@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,6 @@ import 'package:sixvalley_vendor_app/provider/shop_info_provider.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
 import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
-import 'package:sixvalley_vendor_app/view/base/confirmation_dialog.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_app_bar.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_button.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_dialog.dart';
@@ -49,10 +47,11 @@ class ShopScreenState extends State<ShopScreen> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            boxShadow: ThemeShadow.getShadow(context),
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.paddingSizeSmall)),
+                          color: Theme.of(context).cardColor,
+                          boxShadow: ThemeShadow.getShadow(context),
+                          borderRadius: BorderRadius.circular(
+                              Dimensions.paddingSizeSmall),
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -154,14 +153,12 @@ class ShopScreenState extends State<ShopScreen> {
                               },
                             )
                           : const SizedBox(),
-
                       const SizedBox(height: Dimensions.paddingSizeDefault),
-
-                      if (shopInfo.shopModel != null)
-                        ShopBannerWidget(
-                          resProvider: shopInfo,
-                          fromBottom: true,
-                        ),
+                      // if (shopInfo.shopModel != null)
+                      //   ShopBannerWidget(
+                      //     resProvider: shopInfo,
+                      //     fromBottom: true,
+                      //   ),
                     ],
                   ),
                 ),
