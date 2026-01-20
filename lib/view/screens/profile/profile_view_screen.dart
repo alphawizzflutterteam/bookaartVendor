@@ -128,18 +128,16 @@ class ProfileScreenViewState extends State<ProfileScreenView> {
                                       const SizedBox(
                                           height:
                                               Dimensions.paddingSizeExtraSmall),
-                                      Text(
-                                        ' Seller Type : ${profile.userInfoModel!.type}',
-                                        maxLines: 2,
-                                        textAlign: TextAlign.center,
-                                        style: titilliumRegular.copyWith(
-                                            color: ColorResources
-                                                .getProfileTextColor(context),
-                                            fontSize: Dimensions.fontSizeSmall),
-                                      ),
-                                      const SizedBox(
-                                          height:
-                                              Dimensions.paddingSizeExtraSmall),
+                                      // Text(
+                                      //   ' Seller Type : ${profile.userInfoModel!.type}',
+                                      //   maxLines: 2,
+                                      //   textAlign: TextAlign.center,
+                                      //   style: titilliumRegular.copyWith(
+                                      //       color: ColorResources
+                                      //           .getProfileTextColor(context),
+                                      //       fontSize: Dimensions.fontSizeSmall),
+                                      // ),
+                                      // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                                       Text(
                                         ' Seller Id : ${profile.userInfoModel!.uniqueCode}',
                                         maxLines: 2,
@@ -209,7 +207,7 @@ class ProfileScreenViewState extends State<ProfileScreenView> {
                       Expanded(
                           child: InfoItem(
                               icon: Images.productIcon,
-                              title: /*'products'*/'services',
+                              title: /*'products'*/ 'services',
                               amount: profile.userInfoModel!.serviceCount
                                   .toString())),
                       const SizedBox(
@@ -218,20 +216,20 @@ class ProfileScreenViewState extends State<ProfileScreenView> {
                       Expanded(
                           child: InfoItem(
                               icon: Images.order,
-                              title: /*'orders'*/'bookings',
+                              title: /*'orders'*/ 'bookings',
                               amount: profile.userInfoModel!.ordersCount
                                   .toString())),
                       const SizedBox(
                         width: Dimensions.paddingSizeSmall,
                       ),
-                      Expanded(
-                          child: InfoItem(
-                              icon: Images.totalEarnIcon,
-                              title: 'withdrawable_balance',
-                              amount: profile
-                                  .userInfoModel!.wallet!.totalEarning
-                                  .toString(),
-                              isMoney: true)),
+                      // Expanded(
+                      //     child: InfoItem(
+                      //         icon: Images.totalEarnIcon,
+                      //         title: 'withdrawable_balance',
+                      //         amount: profile
+                      //             .userInfoModel!.wallet!.totalEarning
+                      //             .toString(),
+                      //         isMoney: true)),
                     ],
                   ),
                 ),
@@ -242,7 +240,7 @@ class ProfileScreenViewState extends State<ProfileScreenView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: Dimensions.paddingSizeDefault,
+                      top: Dimensions.paddingSizeSmalls,
                       bottom: Dimensions.paddingSizeExtraLarge),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -277,18 +275,19 @@ class InfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 80,
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-        boxShadow: [
-          BoxShadow(
-              color: ColorResources.getPrimary(context).withOpacity(.05),
-              spreadRadius: -3,
-              blurRadius: 12,
-              offset: Offset.fromDirection(0, 6))
-        ],
-      ),
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+          border: Border.all(color: Colors.black12)
+          // boxShadow: [
+          //   BoxShadow(
+          //       color: ColorResources.getPrimary(context).withOpacity(.05),
+          //       spreadRadius: -3,
+          //       blurRadius: 12,
+          //       offset: Offset.fromDirection(0, 6))
+          // ],
+          ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

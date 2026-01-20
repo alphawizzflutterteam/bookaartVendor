@@ -35,147 +35,149 @@ class ShopScreenState extends State<ShopScreen> {
         .id
         .toString();
     Provider.of<ShopProvider>(context, listen: false).getShopInfo();
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(title: getTranslated('my_shop', context)),
-      body: Consumer<ShopProvider>(builder: (context, shopInfo, child) {
-        return shopInfo.shopModel != null
-            ? Padding(
-                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          boxShadow: ThemeShadow.getShadow(context),
-                          borderRadius: BorderRadius.circular(
-                              Dimensions.paddingSizeSmall),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: CustomAppBar(title: getTranslated('my_shop', context)),
+        body: Consumer<ShopProvider>(builder: (context, shopInfo, child) {
+          return shopInfo.shopModel != null
+              ? Padding(
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            boxShadow: ThemeShadow.getShadow(context),
+                            borderRadius: BorderRadius.circular(
+                                Dimensions.paddingSizeSmall),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ShopBannerWidget(resProvider: shopInfo),
+                              const SizedBox(
+                                height: Dimensions.paddingSizeExtraSmall,
+                              ),
+                              ShopInformationWidget(resProvider: shopInfo),
+                            ],
+                          ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ShopBannerWidget(resProvider: shopInfo),
-                            const SizedBox(
-                              height: Dimensions.paddingSizeExtraSmall,
-                            ),
-                            ShopInformationWidget(resProvider: shopInfo),
-                          ],
-                        ),
-                      ),
 
-                      // shopInfo.shopModel != null?
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-                      //   child: ShopSettingWidget(title: 'temporary_close', mode: shopInfo.shopModel?.temporaryClose != null ?
-                      //   shopInfo.shopModel!.temporaryClose == 1: false,
-                      //     onTap: (value){
-                      //     showAnimatedDialog(context, ConfirmationDialog(
-                      //         icon: Images.logo,
-                      //         title: getTranslated('temporary_close_message', context),
-                      //       color: Theme.of(context).textTheme.bodyLarge!.color,
-                      //       onYesPressed: (){
-                      //           shopInfo.shopTemporaryClose(context, shopInfo.shopModel!.temporaryClose == 1? 0 : 1);
-                      //       },
-                      //     ),
-                      //       isFlip: true
-                      //     );
-                      //   },),
-                      // ): const SizedBox(),
-                      //
-                      // shopInfo.shopModel != null
-                      //     ? Padding(
-                      //         padding: const EdgeInsets.only(
-                      //             bottom: Dimensions.paddingSizeDefault),
-                      //         child: ShopSettingWidget(
-                      //           title: 'vacation',
-                      //           mode: shopInfo.shopModel!.vacationStatus == 1,
-                      //           onTap: (value) {
-                      //             if (kDebugMode) {
-                      //               print('--->$value');
-                      //             }
-                      //             showAnimatedDialog(
-                      //                 context,
-                      //                 ConfirmationDialog(
-                      //                   icon: Images.logo,
-                      //                   title: getTranslated(
-                      //                       'vacation_message', context),
-                      //                   color: Theme.of(context)
-                      //                       .textTheme
-                      //                       .bodyLarge!
-                      //                       .color,
-                      //                   onYesPressed: () {
-                      //                     shopInfo.shopVacation(
-                      //                         context,
-                      //                         shopInfo
-                      //                             .shopModel!.vacationStartDate,
-                      //                         shopInfo
-                      //                             .shopModel!.vacationEndDate,
-                      //                         vacationNote.text,
-                      //                         shopInfo.shopModel!
-                      //                                     .vacationStatus ==
-                      //                                 1
-                      //                             ? 0
-                      //                             : 1);
-                      //                   },
-                      //                 ),
-                      //                 isFlip: true);
-                      //           },
-                      //         ),
-                      //       )
-                      //     : const SizedBox(),
+                        // shopInfo.shopModel != null?
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
+                        //   child: ShopSettingWidget(title: 'temporary_close', mode: shopInfo.shopModel?.temporaryClose != null ?
+                        //   shopInfo.shopModel!.temporaryClose == 1: false,
+                        //     onTap: (value){
+                        //     showAnimatedDialog(context, ConfirmationDialog(
+                        //         icon: Images.logo,
+                        //         title: getTranslated('temporary_close_message', context),
+                        //       color: Theme.of(context).textTheme.bodyLarge!.color,
+                        //       onYesPressed: (){
+                        //           shopInfo.shopTemporaryClose(context, shopInfo.shopModel!.temporaryClose == 1? 0 : 1);
+                        //       },
+                        //     ),
+                        //       isFlip: true
+                        //     );
+                        //   },),
+                        // ): const SizedBox(),
+                        //
+                        // shopInfo.shopModel != null
+                        //     ? Padding(
+                        //         padding: const EdgeInsets.only(
+                        //             bottom: Dimensions.paddingSizeDefault),
+                        //         child: ShopSettingWidget(
+                        //           title: 'vacation',
+                        //           mode: shopInfo.shopModel!.vacationStatus == 1,
+                        //           onTap: (value) {
+                        //             if (kDebugMode) {
+                        //               print('--->$value');
+                        //             }
+                        //             showAnimatedDialog(
+                        //                 context,
+                        //                 ConfirmationDialog(
+                        //                   icon: Images.logo,
+                        //                   title: getTranslated(
+                        //                       'vacation_message', context),
+                        //                   color: Theme.of(context)
+                        //                       .textTheme
+                        //                       .bodyLarge!
+                        //                       .color,
+                        //                   onYesPressed: () {
+                        //                     shopInfo.shopVacation(
+                        //                         context,
+                        //                         shopInfo
+                        //                             .shopModel!.vacationStartDate,
+                        //                         shopInfo
+                        //                             .shopModel!.vacationEndDate,
+                        //                         vacationNote.text,
+                        //                         shopInfo.shopModel!
+                        //                                     .vacationStatus ==
+                        //                                 1
+                        //                             ? 0
+                        //                             : 1);
+                        //                   },
+                        //                 ),
+                        //                 isFlip: true);
+                        //           },
+                        //         ),
+                        //       )
+                        //     : const SizedBox(),
 
-                      shopInfo.shopModel != null &&
-                              shopInfo.shopModel!.vacationStatus == 1
-                          ? ShopSettingWidget(
-                              title: 'vacation_date_range',
-                              mode: shopInfo.shopModel!.vacationStatus == 1,
-                              dateSelection: true,
-                              onTap: (value) {},
-                              onPress: () {
-                                showAnimatedDialog(
-                                    context,
-                                    VacationDialog(
-                                      icon: Images.logo,
-                                      title: getTranslated(
-                                          'vacation_message', context),
-                                      vacationNote: vacationNote,
-                                      onYesPressed: () {
-                                        shopInfo.shopVacation(
-                                            context,
-                                            shopInfo.startDate,
-                                            shopInfo.endDate,
-                                            vacationNote.text,
-                                            1);
-                                      },
-                                    ),
-                                    isFlip: true);
-                              },
-                            )
-                          : const SizedBox(),
-                      const SizedBox(height: Dimensions.paddingSizeDefault),
-                      // if (shopInfo.shopModel != null)
-                      //   ShopBannerWidget(
-                      //     resProvider: shopInfo,
-                      //     fromBottom: true,
-                      //   ),
-                    ],
+                        shopInfo.shopModel != null &&
+                                shopInfo.shopModel!.vacationStatus == 1
+                            ? ShopSettingWidget(
+                                title: 'vacation_date_range',
+                                mode: shopInfo.shopModel!.vacationStatus == 1,
+                                dateSelection: true,
+                                onTap: (value) {},
+                                onPress: () {
+                                  showAnimatedDialog(
+                                      context,
+                                      VacationDialog(
+                                        icon: Images.logo,
+                                        title: getTranslated(
+                                            'vacation_message', context),
+                                        vacationNote: vacationNote,
+                                        onYesPressed: () {
+                                          shopInfo.shopVacation(
+                                              context,
+                                              shopInfo.startDate,
+                                              shopInfo.endDate,
+                                              vacationNote.text,
+                                              1);
+                                        },
+                                      ),
+                                      isFlip: true);
+                                },
+                              )
+                            : const SizedBox(),
+                        const SizedBox(height: Dimensions.paddingSizeDefault),
+                        // if (shopInfo.shopModel != null)
+                        //   ShopBannerWidget(
+                        //     resProvider: shopInfo,
+                        //     fromBottom: true,
+                        //   ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            : const CustomLoader();
-      }),
-      bottomNavigationBar: Container(
-        height: 60,
-        decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            boxShadow: ThemeShadow.getShadow(context)),
-        child: Padding(
-          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-          child: CustomButton(
-              btnTxt: getTranslated('edit_shop_info', context),
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const ShopUpdateScreen()))),
+                )
+              : const CustomLoader();
+        }),
+        bottomNavigationBar: Container(
+          height: 60,
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              boxShadow: ThemeShadow.getShadow(context)),
+          child: Padding(
+            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+            child: CustomButton(
+                btnTxt: getTranslated('edit_shop_info', context),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => const ShopUpdateScreen()))),
+          ),
         ),
       ),
     );

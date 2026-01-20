@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +24,6 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
     //     ? List<String>.from(json.decode(widget.s['images'] ?? '[]'))
     //     : [];
 
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -50,7 +47,7 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                       const BorderRadius.vertical(top: Radius.circular(12)),
                 ),
                 child: Center(
-                  child: widget.service?.thumbnail !=null
+                  child: widget.service?.thumbnail != null
                       ? Image.network(
                           '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.productImageUrl}/${widget.service?.thumbnail}',
                           errorBuilder: (context, error, stackTrace) =>
@@ -64,24 +61,24 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                         ),
                 ),
               ),
-              if (widget.service?.featuredStatus == 1)
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: const Text(
-                      "Featured",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
+              // if (widget.service?.featuredStatus == 1)
+              //   Positioned(
+              //     top: 8,
+              //     right: 8,
+              //     child: Container(
+              //       padding:
+              //           const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              //       decoration: BoxDecoration(
+              //         color: Colors.amber,
+              //         borderRadius: BorderRadius.circular(6),
+              //       ),
+              //       child: const Text(
+              //         "Featured",
+              //         style:
+              //             TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              //       ),
+              //     ),
+              //   ),
             ],
           ),
 
@@ -90,7 +87,6 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +98,7 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w600),
                     ),
-                    chip(widget.service?.serviceType ?? '', Colors.blue),
+                    // chip(widget.service?.serviceType ?? '', Colors.blue),
                     // const SizedBox(width: 6),
                     // chip(widget.s["product_type"], Colors.grey),
                   ],
@@ -111,34 +107,35 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                 hasDiscount
                     ? Row(
                         children: [
-                          Text(
-                            "₹${price.toInt()}",
-                            style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green),
-                          ),
-                          const SizedBox(width: 8),
+                          // Text(
+                          //   "₹${price.toInt()}",
+                          //   style: const TextStyle(
+                          //       fontSize: 24,
+                          //       fontWeight: FontWeight.bold,
+                          //       color: Colors.green),
+                          // ),
+                          // const SizedBox(width: 8),
                           Text(
                             "₹${widget.service?.unitPrice}",
                             style: const TextStyle(
-                                decoration: TextDecoration.lineThrough,
-                                color: Colors.grey),
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
                           ),
                           const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.red.shade100,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              "-${widget.service?.discount}${widget.service?.discountType == "percent" ? "%" : "₹"}",
-                              style: const TextStyle(
-                                  color: Colors.red, fontSize: 12),
-                            ),
-                          )
+                          // Container(
+                          //   padding: const EdgeInsets.symmetric(
+                          //       horizontal: 6, vertical: 2),
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.red.shade100,
+                          //     borderRadius: BorderRadius.circular(6),
+                          //   ),
+                          //   child: Text(
+                          //     "-${widget.service?.discount}${widget.service?.discountType == "percent" ? "%" : "₹"}",
+                          //     style: const TextStyle(
+                          //         color: Colors.red, fontSize: 12),
+                          //   ),
+                          // )
                         ],
                       )
                     : Text(
@@ -155,11 +152,11 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                 //   overflow: TextOverflow.ellipsis,
                 //   style: const TextStyle(color: Colors.grey),
                 // ),
-                const Divider(height: 24),
-                Text(
-                  "Total Bookings: ${''}",
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                ),
+                // const Divider(height: 24),
+                // Text(
+                //   "Total Bookings: ${''}",
+                //   style: const TextStyle(fontWeight: FontWeight.w500),
+                // ),
                 //const SizedBox(height: 12),
                 Row(
                   children: [
@@ -170,7 +167,8 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                       activeColor: Colors.green,
                       onChanged: (_) {
                         setState(() {
-                          widget.service?.status = widget.service?.status == 1 ? 0 : 1;
+                          widget.service?.status =
+                              widget.service?.status == 1 ? 0 : 1;
                         });
                       },
                     ),
@@ -193,7 +191,13 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context).primaryColor),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddServices(service: widget.service,),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddServices(
+                                  service: widget.service,
+                                ),
+                              ));
                         },
                       ),
                     ),
@@ -205,7 +209,8 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red),
                         onPressed: () {
-                          Provider.of<SellerProvider>(context,listen: false).deleteService(context, widget.service?.id);
+                          Provider.of<SellerProvider>(context, listen: false)
+                              .deleteService(context, widget.service?.id);
                         },
                       ),
                     ),
@@ -237,7 +242,7 @@ class _ServiceCardWidgetState extends State<ServiceCardWidget> {
 
 double finalPrice(ManageServiceModel s) {
   if (s.discountType == "flat") {
-    return (s.unitPrice! - (s.discount??0)).toDouble();
+    return (s.unitPrice! - (s.discount ?? 0)).toDouble();
   }
   if (s.discountType == "percent") {
     return s.unitPrice! - (s.unitPrice! * (s.discount ?? 0) / 100);

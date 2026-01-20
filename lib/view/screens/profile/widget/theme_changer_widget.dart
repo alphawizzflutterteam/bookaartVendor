@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
-import 'package:sixvalley_vendor_app/provider/shipping_provider.dart';
-import 'package:sixvalley_vendor_app/provider/splash_provider.dart';
-import 'package:sixvalley_vendor_app/provider/theme_provider.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
 import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_dialog.dart';
 import 'package:sixvalley_vendor_app/view/screens/Subcriptionplans/app_token_data.dart';
-import 'package:sixvalley_vendor_app/view/screens/bank_info/bank_info_view.dart';
 import 'package:sixvalley_vendor_app/view/screens/menu/widget/sign_out_confirmation_dialog.dart';
-import 'package:sixvalley_vendor_app/view/screens/settings/order_wise_shipping_list_screen.dart';
-import 'package:sixvalley_vendor_app/view/screens/settings/setting_screen.dart';
-import 'package:sixvalley_vendor_app/view/screens/shipping/category_wise_shipping.dart';
-import 'package:sixvalley_vendor_app/view/screens/shipping/widget/product_wise_shipping.dart';
 
-import '../../Service/AddService.dart';
-import '../../Service/manage_Service.dart';
-import '../../Subcriptionplans/MyBooking.dart';
 import '../../Subcriptionplans/purchasepllan_history.dart';
 import '../../Subcriptionplans/subscription_screen.dart';
 
@@ -119,9 +106,9 @@ class ThemeChanger extends StatelessWidget {
         //   onTap: (){
         //     Navigator.push(context, MaterialPageRoute(builder: (_)=>const SettingsScreen()));
         //   },),
-        const SizedBox(
-          height: Dimensions.paddingSizeExtraSmall,
-        ),
+        // const SizedBox(
+        //   height: Dimensions.paddingSizeExtraSmall,
+        // ),
 
         // SectionItemWidget(
         //   icon: Images.bankCard,
@@ -132,9 +119,9 @@ class ThemeChanger extends StatelessWidget {
         //   },
         // ),
 
-        const SizedBox(
-          height: Dimensions.paddingSizeExtraSmall,
-        ),
+        // const SizedBox(
+        //   height: Dimensions.paddingSizeExtraSmall,
+        // ),
         FutureBuilder(
             future: MyToken.getUserType(),
             builder: (context, snapshot) {
