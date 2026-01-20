@@ -107,16 +107,10 @@ class OngoingOrderWidget extends StatelessWidget {
                             callback: callback,
                           ),
 
-                          // OrderTypeButtonHead(
-                          //   color: ColorResources.mainCardTwoColor(context),
-                          //   text: getTranslated('processing', context), index: 2,
-                          //   numberOfOrder: orderProvider.businessAnalyticsFilterData?.processing, callback: callback,
-                          //   subText: getTranslated('orders', context),
-                          //
-                          // ),
+
 
                           OrderTypeButtonHead(
-                            color: ColorResources.mainCardThreeColor(context),
+                            color: ColorResources.pendingCardColor(context),
                             text: getTranslated('confirmed', context),
                             index: 7,
                             subText: /*getTranslated('orders', context)*/
@@ -125,13 +119,20 @@ class OngoingOrderWidget extends StatelessWidget {
                                 .businessAnalyticsFilterData?.confirmed,
                             callback: callback,
                           ),
+                          OrderTypeButtonHead(
+                            color: ColorResources.mainCardThreeColor(context),
+                            text: /*getTranslated('processing', context)*/'Complete', index: 3,
+                            numberOfOrder: orderProvider.businessAnalyticsFilterData?.complete, callback: callback,
+                            subText: /*getTranslated('orders', context)*/'Services',
 
-                          // OrderTypeButtonHead(
-                          //   color: ColorResources.mainCardFourColor(context),
-                          //   text: getTranslated('out_for_delivery', context), index: 8,
-                          //   subText: '',
-                          //   numberOfOrder: orderProvider.businessAnalyticsFilterData?.outForDelivery, callback: callback,
-                          // ),
+                          ),
+
+                          OrderTypeButtonHead(
+                            color: ColorResources.mainCardFourColor(context),
+                            text: /*getTranslated('out_for_delivery', context)*/'Cancelled', index: 6,
+                            subText: 'Services',
+                            numberOfOrder: orderProvider.businessAnalyticsFilterData?.canceled, callback: callback,
+                          ),
                         ],
                       ),
                     ),

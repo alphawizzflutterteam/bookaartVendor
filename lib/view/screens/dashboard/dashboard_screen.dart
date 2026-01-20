@@ -298,8 +298,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       _pageIndex = pageIndex;
 
       if (_pageIndex == 0) {
-        SchedulerBinding.instance
-            .addPostFrameCallback((_) => checkPlanAndShowDialog());
+        //SchedulerBinding.instance.addPostFrameCallback((_) => checkPlanAndShowDialog());
       }
     });
   }

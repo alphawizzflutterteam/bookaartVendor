@@ -180,7 +180,8 @@ class OrderProvider extends ChangeNotifier {
 
 
   Future<void> getBookingList(BuildContext? context, int offset, String status,String startDate, String endDate,
-      {bool reload = true, String? search}) async {
+      {bool reload = true, String? search})
+  async {
     if (reload) {
       _bookingModel = null;
     }
@@ -208,6 +209,10 @@ class OrderProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+
+
+
   void selectBookingDate(String type, BuildContext context){
     showDatePicker(
       context: context,

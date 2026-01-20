@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sixvalley_vendor_app/data/model/response/booking_model.dart';
 import 'package:sixvalley_vendor_app/data/model/response/product_model.dart';
 import 'package:sixvalley_vendor_app/provider/bank_info_provider.dart';
 import 'package:sixvalley_vendor_app/provider/delivery_man_provider.dart';
@@ -14,6 +15,7 @@ import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_loader.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/completed_order_widget.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/on_going_order_widget.dart';
+import 'package:sixvalley_vendor_app/view/screens/home/widget/order_widget.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/stock_out_product_widget.dart';
 import 'package:sixvalley_vendor_app/view/screens/product/top_selling_product.dart';
 
@@ -35,8 +37,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     Provider.of<BankInfoProvider>(context, listen: false).getBankInfo(context);
     /*Provider.of<OrderProvider>(context, listen: false)
         .getOrderList(context, 1, 'all');*/
-    Provider.of<OrderProvider>(context, listen: false)
-        .getBookingList(context, 1, 'all','','');
+    Provider.of<OrderProvider>(context, listen: false).getBookingList(context, 1, 'pending','','');
     Provider.of<OrderProvider>(context, listen: false)
         .getAnalyticsFilterData(context, 'overall');
     Provider.of<SplashProvider>(context, listen: false).getColorList();
@@ -59,10 +60,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     _loadData(context, false);
-    Provider.of<OrderProvider>(context, listen: false)
-        .setAnalyticsFilterName(context, 'overall', false);
-    Provider.of<OrderProvider>(context, listen: false)
-        .setAnalyticsFilterType(0, false);
+    Provider.of<OrderProvider>(context, listen: false).setAnalyticsFilterName(context, 'overall', false);
+    Provider.of<OrderProvider>(context, listen: false).setAnalyticsFilterType(0, false);
     Provider.of<ProfileProvider>(context, listen: false).getSellerInfo();
     super.initState();
   }
@@ -84,6 +83,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Consumer<OrderProvider>(
         builder: (context, order, child) {
+          List<BookingData>? bookingList = [];
+          bookingList = order.bookingModel?.data;
           return order.bookingModel != null
               ? RefreshIndicator(
                   onRefresh: () async {
@@ -113,23 +114,37 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             OngoingOrderWidget(
                               callback: widget.callback,
                             ),
-                            CompletedOrderWidget(callback: widget.callback),
+                          //  CompletedOrderWidget(callback: widget.callback),
                             const SizedBox(height: Dimensions.paddingSizeSmall),
                             const SizedBox(
                               height: 20,
                             ),
-                            double.parse(Provider.of<ProfileProvider>(context,
-                                            listen: false)
-                                        .userInfoModel!
-                                        .wallet_maintain
-                                        .toString()) >
-                                    double.parse(Provider.of<ProfileProvider>(
-                                            context,
-                                            listen: false)
-                                        .userInfoModel!
-                                        .wallet!
-                                        .totalEarning
-                                        .toString())
+
+                            ListView.builder(
+                              itemCount: bookingList?.length ?? 0,
+                              padding: const EdgeInsets.all(0),
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder:
+                                  (BuildContext context, int index) {
+                                return BookingWidget(
+                                  bookingModel: bookingList![index],
+                                  index: index,
+                                );
+
+                                /*OrderWidget(
+                                    orderModel: bookingList![index],
+                                    index: index,
+                                  );*/
+                              },
+                            ),
+
+
+
+
+
+                            double.parse(Provider.of<ProfileProvider>(context, listen: false).userInfoModel!.wallet_maintain
+                                        .toString()) > double.parse(Provider.of<ProfileProvider>(context, listen: false).userInfoModel!.wallet!.totalEarning.toString())
                                 ? const Padding(
                                     padding: EdgeInsets.all(12.0),
                                     // child: Text(

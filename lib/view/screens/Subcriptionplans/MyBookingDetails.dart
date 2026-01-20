@@ -104,7 +104,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   bookingDetail(),
                   customerDetail(),
                   summary(),
-                   statusAndPayment()
+                  widget.bookingData?.status == 0 ? SizedBox() : statusAndPayment()
 
 
 

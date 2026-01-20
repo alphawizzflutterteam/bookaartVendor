@@ -18,6 +18,7 @@ import '../../Subcriptionplans/MyBookingDetails.dart';
 class OrderWidget extends StatelessWidget {
   final Order orderModel;
   final int? index;
+
   const OrderWidget({Key? key, required this.orderModel, this.index})
       : super(key: key);
 
@@ -297,30 +298,32 @@ class OrderWidget extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          print("tap herere")
-;                                          order.updateOrderStatus(
+                                          print("tap herere");
+                                          order.updateOrderStatus(
                                               orderModel.id,
                                               'canceled',
                                               context,
                                               orderModel.orderStatus!);
                                         },
                                         child: Container(
-                                            height: 30,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                4,
-                                            decoration: BoxDecoration(
-                                              color: ColorResources.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: const Center(
-                                                child: Text(
+                                          height: 30,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              4,
+                                          decoration: BoxDecoration(
+                                            color: ColorResources.red,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: const Center(
+                                            child: Text(
                                               "Reject",
                                               style: TextStyle(
                                                   color: ColorResources.white),
-                                            ),),),
+                                            ),
+                                          ),
+                                        ),
                                       )
                                     ],
                                   )
@@ -341,11 +344,10 @@ class OrderWidget extends StatelessWidget {
   }
 }
 
-
-
 class BookingWidget extends StatelessWidget {
   final BookingData bookingModel;
   final int? index;
+
   const BookingWidget({Key? key, required this.bookingModel, this.index})
       : super(key: key);
 
@@ -363,24 +365,28 @@ class BookingWidget extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => BookingDetailsScreen(bookingData: bookingModel,status: bookingModel.status ?? 0,)/*OrderDetailsScreen(
+                        builder: (_) => BookingDetailsScreen(
+                              bookingData: bookingModel,
+                              status: bookingModel.status ?? 0,
+                            ) /*OrderDetailsScreen(
                           orderModel: orderModel,
                           orderId: orderModel.id,
                           orderType: orderModel.orderType,
                           extraDiscount: orderModel.extraDiscount,
                           extraDiscountType: orderModel.extraDiscountType,
-                        )*/));
+                        )*/
+                        ));
               },
               child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius:
-                    BorderRadius.circular(Dimensions.paddingSizeSmall),
+                        BorderRadius.circular(Dimensions.paddingSizeSmall),
                     boxShadow: [
                       BoxShadow(
                           color: Provider.of<ThemeProvider>(context,
-                              listen: false)
-                              .darkTheme
+                                      listen: false)
+                                  .darkTheme
                               ? Theme.of(context).primaryColor.withOpacity(0)
                               : Theme.of(context).primaryColor.withOpacity(.09),
                           blurRadius: 5,
@@ -394,12 +400,12 @@ class BookingWidget extends StatelessWidget {
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                               topLeft:
-                              Radius.circular(Dimensions.paddingSizeSmall),
+                                  Radius.circular(Dimensions.paddingSizeSmall),
                               topRight: Radius.circular(
                                   Dimensions.paddingSizeSmall))),
                       child: Padding(
                         padding:
-                        const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            const EdgeInsets.all(Dimensions.paddingSizeSmall),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -417,7 +423,7 @@ class BookingWidget extends StatelessWidget {
                                     '${getTranslated('booking_no', context)}# ',
                                     style: robotoRegular.copyWith(
                                         color:
-                                        ColorResources.getPrimary(context),
+                                            ColorResources.getPrimary(context),
                                         fontSize: Dimensions.fontSizeLarge),
                                   ),
                                   Text(
@@ -454,7 +460,7 @@ class BookingWidget extends StatelessWidget {
                           color: Theme.of(context).cardColor,
                           borderRadius: const BorderRadius.only(
                               bottomLeft:
-                              Radius.circular(Dimensions.paddingSizeSmall),
+                                  Radius.circular(Dimensions.paddingSizeSmall),
                               bottomRight: Radius.circular(
                                   Dimensions.paddingSizeSmall))),
                       child: Padding(
@@ -468,12 +474,15 @@ class BookingWidget extends StatelessWidget {
                           children: [
                             bookingModel.createdAt != null
                                 ? Text(
-                                DateConverter.localDateToIsoStringAMPM(
-                                    DateTime.parse(bookingModel.createdAt!)),
-                                style: robotoRegular.copyWith(
-                                    color: Theme.of(context).hintColor))
+                                    DateConverter.localDateToIsoStringAMPM(
+                                        DateTime.parse(
+                                            bookingModel.createdAt!)),
+                                    style: robotoRegular.copyWith(
+                                        color: Theme.of(context).hintColor))
                                 : const SizedBox(),
-                            SizedBox(height: 5,),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -503,22 +512,27 @@ class BookingWidget extends StatelessWidget {
                                     SizedBox(
                                       height: Dimensions.iconSizeSmall,
                                       width: Dimensions.iconSizeSmall,
-                                      child: Image.asset(bookingModel
-                                          .status == 0
-                                          ? Images.orderPendingIcon
-                                          : bookingModel.status ==1
-
-                                          ? Images.confirmPurchase
-                                          : bookingModel.status ==2
-                                          ? Images.deliveredIcon
-                                          : bookingModel.status ==4
-                                          ? Images.deliveredIcon
-                                          : Images.outIcon),
+                                      child:
+                                          Image.asset(bookingModel.status == 0
+                                              ? Images.orderPendingIcon
+                                              : bookingModel.status == 1
+                                                  ? Images.confirmPurchase
+                                                  : bookingModel.status == 2
+                                                      ? Images.deliveredIcon
+                                                      : bookingModel.status == 4
+                                                          ? Images.deliveredIcon
+                                                          : Images.outIcon),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                          bookingModel.status == 0 ? 'Pending': bookingModel.status == 1 ? 'Confirmed' : bookingModel.status == 2 ?'Completed':'Cancelled' /*getTranslated(orderModel.orderStatus, context)!*/,
+                                          bookingModel.status == 0
+                                              ? 'Pending'
+                                              : bookingModel.status == 1
+                                                  ? 'Confirmed'
+                                                  : bookingModel.status == 2
+                                                      ? 'Completed'
+                                                      : 'Cancelled' /*getTranslated(orderModel.orderStatus, context)!*/,
                                           style: robotoRegular.copyWith(
                                               color: ColorResources.getPrimary(
                                                   context))),
@@ -540,9 +554,9 @@ class BookingWidget extends StatelessWidget {
                                         //         : '',
                                         style: robotoRegular.copyWith(
                                             fontSize:
-                                            Dimensions.fontSizeDefault,
+                                                Dimensions.fontSizeDefault,
                                             color:
-                                            Theme.of(context).hintColor)),
+                                                Theme.of(context).hintColor)),
                                     const SizedBox(
                                         width: Dimensions.paddingSizeSmall),
                                     SizedBox(
@@ -552,36 +566,74 @@ class BookingWidget extends StatelessWidget {
                                           bookingModel.paymentMethod == ''
                                               ? Images.paymentIcon
                                               : bookingModel.paymentMethod ==
-                                              'wallet'
-                                              ? Images.payByWalletIcon
-                                              : Images.digitalPaymentIcon),
+                                                      'wallet'
+                                                  ? Images.payByWalletIcon
+                                                  : Images.digitalPaymentIcon),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                            /*bookingModel.status == 0
+                            bookingModel.status != 0
                                 ? SizedBox()
-                                : Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    color: bookingModel.status == 1 ||
-                                        bookingModel.status == 2
+                                : Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: (){
 
-                                        ? ColorResources.green
-                                        : ColorResources.red,
-                                    borderRadius:
-                                    BorderRadius.circular(10)),
-                                child: Center(
-                                    child: Text(
-                                      ( bookingModel.status == 1 ||
-                                          bookingModel.status == 2 )
-                                          ? "Accepted"
-                                          : "Rejected",
-                                      style: const TextStyle(
-                                          color: ColorResources.white),
-                                    ))),
-                            orderModel.orderStatus == 'pending'
+                                              //Confirm == '1', Cancel o r reject == '4' for api
+                                              order.updateBookingStatus(bookingModel.id, '1', context, order.orderType);
+
+
+                                            },
+                                            child: Container(
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                    color: ColorResources.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Center(
+                                                    child: Text(
+                                                  "Accept",
+                                                  style: const TextStyle(
+                                                      color:
+                                                          ColorResources.white),
+                                                ))),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: (){
+                                              //Confirm == '1', Cancel o r reject == '4' for api
+                                              order.updateBookingStatus(bookingModel.id, '4', context, order.orderType);
+                                            },
+                                            child: Container(
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                    color: ColorResources.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Center(
+                                                    child: Text(
+                                                  "Reject",
+                                                  style: const TextStyle(
+                                                      color:
+                                                          ColorResources.white),
+                                                ))),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                            /*bookingModel.orderStatus == 'pending'
                                 ? Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
