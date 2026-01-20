@@ -25,6 +25,7 @@ class AppDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 48,
       margin: margin ??
           const EdgeInsets.only(
             left: Dimensions.paddingSizeLarge,

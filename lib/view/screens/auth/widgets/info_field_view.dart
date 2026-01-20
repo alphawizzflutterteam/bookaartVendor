@@ -4,7 +4,9 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:map_location_picker/map_location_picker.dart';
+
 // import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
@@ -29,6 +31,7 @@ String? droopUplocation, droopLat, droopLong;
 
 class InfoFieldVIew extends StatefulWidget {
   final bool isShopInfo;
+
   const InfoFieldVIew({Key? key, this.isShopInfo = false}) : super(key: key);
 
   @override
@@ -38,13 +41,22 @@ class InfoFieldVIew extends StatefulWidget {
 class _InfoFieldVIewState extends State<InfoFieldVIew> {
   String? _countryDialCode = "+880";
   String currency = '', country = '', selectedTimeZone = '';
+  String? lat;
+  String? long;
   final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
-    _countryDialCode = CountryCode.fromCountryCode(Provider.of<SplashProvider>(context, listen: false).configModel!.countryCode!).dialCode;
+    getUserCurrentLocation();
+    _countryDialCode = CountryCode.fromCountryCode(
+            Provider.of<SplashProvider>(context, listen: false)
+                .configModel!
+                .countryCode!)
+        .dialCode;
 
-    Provider.of<SellerProvider>(context, listen: false).getSellerCategory(context, 'en');
+    Provider.of<SellerProvider>(context, listen: false)
+        .getSellerCategory(context, 'en');
   }
 
   String? droopUplocation, droopLat, droopLong;
@@ -261,7 +273,7 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                       child: CustomTextField(
                         border: true,
                         maxSize: 16,
-                        hintText: "Gst Number",
+                        hintText: "Gst Number(Optional)",
                         focusNode: authProvider.gstNode,
                         nextNode: authProvider.adharNode,
                         textInputType: TextInputType.name,
@@ -287,8 +299,8 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                         textInputAction: TextInputAction.next,
                       )),
 
-
                   const SizedBox(height: Dimensions.paddingSizeSmall),
+
                   ///Address
                   Container(
                     margin: const EdgeInsets.only(
@@ -303,24 +315,31 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                     child: TextFormField(
                       readOnly: true,
                       onTap: () {
+                        print("latssdsads $lat   and Long  $long  ");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MapLocationPicker(
                                     config: MapLocationPickerConfig(
                                       apiKey: AppConstants.mapKey,
-                                      initialPosition:
-                                          LatLng(22.719568, 75.857727),
+                                      initialPosition: LatLng(
+                                        double.tryParse(lat.toString()) ??
+                                            22.719568,
+                                        double.tryParse(long.toString()) ??
+                                            75.857727,
+                                      ),
                                       onNext: (result) {
                                         if (result != null) {
-                                          print('Full Address: ${result.formattedAddress}');
+                                          print(
+                                              'Full Address: ${result.formattedAddress}');
 
                                           // Extract components from address
-                                          for (var component in result.addressComponents) {
-                                            if (component.types.contains('administrative_area_level_1')) {
-                                              authProvider.stateController.text =
-                                                  component.longName;
-
+                                          for (var component
+                                              in result.addressComponents) {
+                                            if (component.types.contains(
+                                                'administrative_area_level_1')) {
+                                              authProvider.stateController
+                                                  .text = component.longName;
                                             } else if (component.types
                                                 .contains('locality')) {
                                               authProvider.cityController.text =
@@ -442,7 +461,7 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                         filled: false,
                         isDense: true,
                         contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10),
+                            vertical: 14.0, horizontal: 10),
                         alignLabelWithHint: true,
                         counterText: '',
                         hintStyle: titilliumRegular.copyWith(
@@ -489,106 +508,121 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                   //       textInputAction: TextInputAction.done,
                   //     )),
 
-                  Row(children: [
-                    Expanded(
-                      child: Container(
-                          margin: const EdgeInsets.only(
-                              left: Dimensions.paddingSizeLarge,
-                              right: Dimensions.paddingSizeLarge,
-                              bottom: Dimensions.paddingSizeSmall,
-                              top: Dimensions.paddingSizeSmall),
-                          child: CustomTextField(
-                            border: true,
-                            maxSize: 12,
-                            hintText: "City",
-                            focusNode: authProvider.cityNode,
-                            nextNode: authProvider.stateNode,
-                            textInputType: TextInputType.text,
-                            controller: authProvider.cityController,
-                            textInputAction: TextInputAction.next,
-                          )),
-                    ),
-                    Expanded(
-                      child: Container(
-                          margin: const EdgeInsets.only(
-                              left: Dimensions.paddingSizeLarge,
-                              right: Dimensions.paddingSizeLarge,
-                              bottom: Dimensions.paddingSizeSmall,
-                              top: Dimensions.paddingSizeSmall),
-                          child: CustomTextField(
-                            border: true,
-                            maxSize: 12,
-                            hintText: "State",
-                            focusNode: authProvider.stateNode,
-                            nextNode: authProvider.shopAddressNode,
-                            textInputType: TextInputType.text,
-                            controller: authProvider.stateController,
-                            textInputAction: TextInputAction.next,
-                          )),
-                    ),
-                  ],),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                            margin: const EdgeInsets.only(
+                                left: Dimensions.paddingSizeLarge,
+                                right: Dimensions.paddingSizeLarge,
+                                bottom: Dimensions.paddingSizeSmall,
+                                top: Dimensions.paddingSizeSmall),
+                            child: CustomTextField(
+                              border: true,
+                              maxSize: 12,
+                              hintText: "City",
+                              focusNode: authProvider.cityNode,
+                              nextNode: authProvider.stateNode,
+                              textInputType: TextInputType.text,
+                              controller: authProvider.cityController,
+                              textInputAction: TextInputAction.next,
+                            )),
+                      ),
+                      Expanded(
+                        child: Container(
+                            margin: const EdgeInsets.only(
+                                left: Dimensions.paddingSizeLarge,
+                                right: Dimensions.paddingSizeLarge,
+                                bottom: Dimensions.paddingSizeSmall,
+                                top: Dimensions.paddingSizeSmall),
+                            child: CustomTextField(
+                              border: true,
+                              maxSize: 12,
+                              hintText: "State",
+                              focusNode: authProvider.stateNode,
+                              nextNode: authProvider.shopAddressNode,
+                              textInputType: TextInputType.text,
+                              controller: authProvider.stateController,
+                              textInputAction: TextInputAction.next,
+                            )),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
 
                   ///Category section
-                  Consumer<SellerProvider>(builder: (context, provider, child) {
-                    return Row(children: [
-                        Expanded(child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children:
-                        [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                                'Seller Category',
-                                style: robotoRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeDefault)),
-                          ),
-                          AppDropdown<String>(
-                            margin: EdgeInsets.all(10),
-                          items: provider.sellerCategoryList?.map((e) => e.name!,).toList() ?? [],
-                          value: provider.selectedSellerCate,
-                          hintText: 'Seller Category',
-                          onChanged: (value) {
-                            int index = provider.sellerCategoryList!.indexWhere((element) => element.name == value,);
-                            if(index !=-1) {
-                              provider.getSellerSubCategoryList(index);
-                            }
-
-                          },
-                        )],)),
-                        Expanded(child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                  'Seller Sub Category',
-                                  style: robotoRegular.copyWith(
-                                      fontSize: Dimensions.fontSizeDefault)),
-                            ),
-                            AppDropdown<String>(
-                              margin: EdgeInsets.all(10),
-                              items: provider.sellerSubCategoryList?.map((e) => e.name!,).toList() ?? [],
-                              value: provider.selectedSellerSubCate,
-                              hintText: 'Subcategory Category',
-                              onChanged: (value) {
-
-                                int index = provider.sellerSubCategoryList!.indexWhere((element) => element.name == value,);
-                                if(index !=-1) {
-                                  provider.selectSellerSubCategory(index);
-                                }
-
-
-
-                              },
-                            ),
-                          ],
-                        )),
-
-
-                    ],);
-                  },),
+                  Consumer<SellerProvider>(
+                    builder: (context, provider, child) {
+                      return Row(
+                        children: [
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text('Seller Category',
+                                    style: robotoRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeDefault)),
+                              ),
+                              AppDropdown<String>(
+                                margin: EdgeInsets.all(10),
+                                items: provider.sellerCategoryList
+                                        ?.map(
+                                          (e) => e.name!,
+                                        )
+                                        .toList() ??
+                                    [],
+                                value: provider.selectedSellerCate,
+                                hintText: 'Seller Category',
+                                onChanged: (value) {
+                                  int index =
+                                      provider.sellerCategoryList!.indexWhere(
+                                    (element) => element.name == value,
+                                  );
+                                  if (index != -1) {
+                                    provider.getSellerSubCategoryList(index);
+                                  }
+                                },
+                              )
+                            ],
+                          )),
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text('Seller Sub Category',
+                                    style: robotoRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeDefault)),
+                              ),
+                              AppDropdown<String>(
+                                margin: EdgeInsets.all(10),
+                                items: provider.sellerSubCategoryList
+                                        ?.map(
+                                          (e) => e.name!,
+                                        )
+                                        .toList() ??
+                                    [],
+                                value: provider.selectedSellerSubCate,
+                                hintText: 'Subcategory Category',
+                                onChanged: (value) {
+                                  int index = provider.sellerSubCategoryList!
+                                      .indexWhere(
+                                    (element) => element.name == value,
+                                  );
+                                  if (index != -1) {
+                                    provider.selectSellerSubCategory(index);
+                                  }
+                                },
+                              ),
+                            ],
+                          )),
+                        ],
+                      );
+                    },
+                  ),
 
                   /*Container(
                       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -681,179 +715,180 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                     ),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeDefault),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: Dimensions.paddingSizeLarge,
-                        right: Dimensions.paddingSizeLarge,
-                        bottom: Dimensions.paddingSizeDefault),
-                    child: Row(
-                      children: [
-                        Text(
-                            '${getTranslated('business_or_shop_banner', context)}',
-                            style: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeDefault)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                  Align(
-                      alignment: Alignment.center,
-                      child: DottedBorder(
-                        dashPattern: const [10, 5],
-                        color: Theme.of(context).hintColor,
-                        borderType: BorderType.RRect,
-                        radius:
-                            const Radius.circular(Dimensions.paddingSizeSmall),
-                        child: Stack(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.paddingSizeSmall),
-                            child: authProvider.shopBanner != null
-                                ? Image.file(
-                                    File(authProvider.shopBanner!.path),
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    height: 120,
-                                    fit: BoxFit.cover,
-                                  )
-                                : SizedBox(
-                                    height: 120,
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    child: Image.asset(
-                                      Images.cameraPlaceholder,
-                                      scale: 3,
-                                    ),
-                                  ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            top: 0,
-                            left: 0,
-                            child: InkWell(
-                              onTap: () => authProvider.pickImage(
-                                  false, false, false, false, false),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .hintColor
-                                      .withOpacity(0.08),
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.paddingSizeSmall),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: Dimensions.paddingSizeSmall,
-                        bottom: Dimensions.paddingSizeDefault),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(getTranslated('image_size', context)!,
-                            style: robotoRegular),
-                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                        Text(
-                          '(3:1)',
-                          style: robotoRegular.copyWith(
-                              color: Theme.of(context).colorScheme.error),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeDefault),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: Dimensions.paddingSizeLarge,
-                        right: Dimensions.paddingSizeLarge,
-                        bottom: Dimensions.paddingSizeDefault),
-                    child: Row(
-                      children: [
-                        Text(
-                            '${getTranslated('store_secondary_banner', context)}',
-                            style: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeDefault)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                  Align(
-                      alignment: Alignment.center,
-                      child: DottedBorder(
-                        dashPattern: const [10, 5],
-                        color: Theme.of(context).hintColor,
-                        borderType: BorderType.RRect,
-                        radius:
-                            const Radius.circular(Dimensions.paddingSizeSmall),
-                        child: Stack(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.paddingSizeSmall),
-                            child: authProvider.secondaryBanner != null
-                                ? Image.file(
-                                    File(authProvider.secondaryBanner!.path),
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    height: 120,
-                                    fit: BoxFit.cover,
-                                  )
-                                : SizedBox(
-                                    height: 120,
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    child: Image.asset(
-                                      Images.cameraPlaceholder,
-                                      scale: 3,
-                                    ),
-                                  ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            top: 0,
-                            left: 0,
-                            child: InkWell(
-                              onTap: () => authProvider.pickImage(
-                                  false, false, false, false, false,
-                                  secondary: true),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .hintColor
-                                      .withOpacity(0.08),
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.paddingSizeSmall),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: Dimensions.paddingSizeSmall,
-                        bottom: Dimensions.paddingSizeDefault),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(getTranslated('image_size', context)!,
-                            style: robotoRegular),
-                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                        Text(
-                          '(3:1)',
-                          style: robotoRegular.copyWith(
-                              color: Theme.of(context).colorScheme.error),
-                        ),
-                      ],
-                    ),
-                  ),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       left: Dimensions.paddingSizeLarge,
+                  //       right: Dimensions.paddingSizeLarge,
+                  //       bottom: Dimensions.paddingSizeDefault),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //           '${getTranslated('business_or_shop_banner', context)}',
+                  //           style: robotoRegular.copyWith(
+                  //               fontSize: Dimensions.fontSizeDefault)),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                  // Align(
+                  //     alignment: Alignment.center,
+                  //     child: DottedBorder(
+                  //       dashPattern: const [10, 5],
+                  //       color: Theme.of(context).hintColor,
+                  //       borderType: BorderType.RRect,
+                  //       radius:
+                  //           const Radius.circular(Dimensions.paddingSizeSmall),
+                  //       child: Stack(children: [
+                  //         ClipRRect(
+                  //           borderRadius: BorderRadius.circular(
+                  //               Dimensions.paddingSizeSmall),
+                  //           child: authProvider.shopBanner != null
+                  //               ? Image.file(
+                  //                   File(authProvider.shopBanner!.path),
+                  //                   width:
+                  //                       MediaQuery.of(context).size.width - 40,
+                  //                   height: 120,
+                  //                   fit: BoxFit.cover,
+                  //                 )
+                  //               : SizedBox(
+                  //                   height: 120,
+                  //                   width:
+                  //                       MediaQuery.of(context).size.width - 40,
+                  //                   child: Image.asset(
+                  //                     Images.cameraPlaceholder,
+                  //                     scale: 3,
+                  //                   ),
+                  //                 ),
+                  //         ),
+                  //         Positioned(
+                  //           bottom: 0,
+                  //           right: 0,
+                  //           top: 0,
+                  //           left: 0,
+                  //           child: InkWell(
+                  //             onTap: () => authProvider.pickImage(
+                  //                 false, false, false, false, false),
+                  //             child: Container(
+                  //               decoration: BoxDecoration(
+                  //                 color: Theme.of(context)
+                  //                     .hintColor
+                  //                     .withOpacity(0.08),
+                  //                 borderRadius: BorderRadius.circular(
+                  //                     Dimensions.paddingSizeSmall),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ]),
+                  //     )),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       top: Dimensions.paddingSizeSmall,
+                  //       bottom: Dimensions.paddingSizeDefault),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(getTranslated('image_size', context)!,
+                  //           style: robotoRegular),
+                  //       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  //       Text(
+                  //         '(3:1)',
+                  //         style: robotoRegular.copyWith(
+                  //             color: Theme.of(context).colorScheme.error),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: Dimensions.paddingSizeDefault),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       left: Dimensions.paddingSizeLarge,
+                  //       right: Dimensions.paddingSizeLarge,
+                  //       bottom: Dimensions.paddingSizeDefault),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //           '${getTranslated('store_secondary_banner', context)}',
+                  //           style: robotoRegular.copyWith(
+                  //               fontSize: Dimensions.fontSizeDefault)),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                  // Align(
+                  //     alignment: Alignment.center,
+                  //     child: DottedBorder(
+                  //       dashPattern: const [10, 5],
+                  //       color: Theme.of(context).hintColor,
+                  //       borderType: BorderType.RRect,
+                  //       radius:
+                  //           const Radius.circular(Dimensions.paddingSizeSmall),
+                  //       child: Stack(children: [
+                  //         ClipRRect(
+                  //           borderRadius: BorderRadius.circular(
+                  //               Dimensions.paddingSizeSmall),
+                  //           child: authProvider.secondaryBanner != null
+                  //               ? Image.file(
+                  //                   File(authProvider.secondaryBanner!.path),
+                  //                   width:
+                  //                       MediaQuery.of(context).size.width - 40,
+                  //                   height: 120,
+                  //                   fit: BoxFit.cover,
+                  //                 )
+                  //               : SizedBox(
+                  //                   height: 120,
+                  //                   width:
+                  //                       MediaQuery.of(context).size.width - 40,
+                  //                   child: Image.asset(
+                  //                     Images.cameraPlaceholder,
+                  //                     scale: 3,
+                  //                   ),
+                  //                 ),
+                  //         ),
+                  //         Positioned(
+                  //           bottom: 0,
+                  //           right: 0,
+                  //           top: 0,
+                  //           left: 0,
+                  //           child: InkWell(
+                  //             onTap: () => authProvider.pickImage(
+                  //                 false, false, false, false, false,
+                  //                 secondary: true),
+                  //             child: Container(
+                  //               decoration: BoxDecoration(
+                  //                 color: Theme.of(context)
+                  //                     .hintColor
+                  //                     .withOpacity(0.08),
+                  //                 borderRadius: BorderRadius.circular(
+                  //                     Dimensions.paddingSizeSmall),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ]),
+                  //     )),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       top: Dimensions.paddingSizeSmall,
+                  //       bottom: Dimensions.paddingSizeDefault),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(getTranslated('image_size', context)!,
+                  //           style: robotoRegular),
+                  //       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  //       Text(
+                  //         '(3:1)',
+                  //         style: robotoRegular.copyWith(
+                  //             color: Theme.of(context).colorScheme.error),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 
                   // Aadhaar
-                  const SizedBox(height: Dimensions.paddingSizeDefault),
+                  // const SizedBox(height: Dimensions.paddingSizeDefault),
                   Padding(
                     padding: const EdgeInsets.only(
                         left: Dimensions.paddingSizeLarge,
@@ -962,28 +997,28 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                         color: Theme.of(context).hintColor,
                         borderType: BorderType.RRect,
                         radius:
-                        const Radius.circular(Dimensions.paddingSizeSmall),
+                            const Radius.circular(Dimensions.paddingSizeSmall),
                         child: Stack(children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(
                                 Dimensions.paddingSizeSmall),
                             child: authProvider.aadharBack != null
                                 ? Image.file(
-                              File(authProvider.aadharBack!.path),
-                              width:
-                              MediaQuery.of(context).size.width - 40,
-                              height: 120,
-                              fit: BoxFit.cover,
-                            )
+                                    File(authProvider.aadharBack!.path),
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  )
                                 : SizedBox(
-                              height: 120,
-                              width:
-                              MediaQuery.of(context).size.width - 40,
-                              child: Image.asset(
-                                Images.cameraPlaceholder,
-                                scale: 3,
-                              ),
-                            ),
+                                    height: 120,
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    child: Image.asset(
+                                      Images.cameraPlaceholder,
+                                      scale: 3,
+                                    ),
+                                  ),
                           ),
                           Positioned(
                             bottom: 0,
@@ -992,7 +1027,8 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                             left: 0,
                             child: InkWell(
                               onTap: () => authProvider.pickImage(
-                                  false, false, false, false, false,isAadharBack: true),
+                                  false, false, false, false, false,
+                                  isAadharBack: true),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Theme.of(context)
@@ -1163,5 +1199,32 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
         ),
       );
     });
+  }
+
+  Future<void> getUserCurrentLocation() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      print("checking permission here $permission");
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error('Location Not Available');
+      }
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    lat = position.latitude.toString();
+    long = position.longitude.toString();
+
+    List<Placemark> placemark = await placemarkFromCoordinates(
+      double.parse(lat.toString()), double.parse(long.toString()),
+      // localeIdentifier: "en",
+    );
+    if (mounted) {
+      setState(() {
+        lat = position.latitude.toString();
+        long = position.longitude.toString();
+      });
+    }
   }
 }

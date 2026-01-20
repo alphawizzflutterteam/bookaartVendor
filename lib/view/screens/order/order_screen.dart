@@ -91,93 +91,93 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
 
-              Row(children: [
-                Expanded(
-                  child: SizedBox(height: 80,
-                      child: Container(
-                        color: Theme.of(context).cardColor,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault),
-                          child: CustomSearchField(
-                            controller: searchController,
-                            hint: 'Search by Booking id',
-                            prefix: Images.iconsSearch,
-                            iconPressed: () => (){},
-                            onSubmit: (text) => (){},
-                            onChanged: (value){
-                              if(value.toString().isNotEmpty){
-
-                                //searchProductController.initSellerProductList(userId.toString(), 1, context, 'en',value, reload: true);
-                              }
-
-                            },
-                          ),
-                        ),
-                      )),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-
-                    if(searchController.text.trim().isNotEmpty){
-                      Provider.of<OrderProvider>(context, listen: false).setIndex(context, 0,search: searchController.text);
-
-                    }
-
-                  },
-                  child: const Text('search'),
-                ),
-                SizedBox(width: 10,)
-
-              ],),
-              Padding(
-          padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.paddingSizeDefault,
-          vertical: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                  Row(children: [
-                    Text('From'),
-                    SizedBox(width: 20,),
-                    InkWell(
-                      onTap: () {
-                        order.selectBookingDate('start', context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration:
-                        BoxDecoration(
-                          border:  Border.all(
-                              width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
-
-                          // color: Theme.of(context).highlightColor,
-                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-
-                        ),child: Text( order.bookingStartDate== null ?'YYYY-MM-dd' : formatDate(order.bookingStartDate.toString())),),
-                    ),
-                  ],),
-                  Row(children: [
-                    Text('To'),
-                    SizedBox(width: 20,),
-                    InkWell(
-                      onTap: (){
-                        order.selectBookingDate('end', context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration:
-                        BoxDecoration(
-                          border:  Border.all(
-                              width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
-
-                          // color: Theme.of(context).highlightColor,
-                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-
-                        ),child: Text(order.endDate== null ?'YYYY-MM-dd' : formatDate(order.endDate.toString())),),
-                    ),
-                  ],),
-                ],),
-              ),
+              // Row(children: [
+              //   Expanded(
+              //     child: SizedBox(height: 80,
+              //         child: Container(
+              //           color: Theme.of(context).cardColor,
+              //           child: Padding(
+              //             padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault),
+              //             child: CustomSearchField(
+              //               controller: searchController,
+              //               hint: 'Search by Booking id',
+              //               prefix: Images.iconsSearch,
+              //               iconPressed: () => (){},
+              //               onSubmit: (text) => (){},
+              //               onChanged: (value){
+              //                 if(value.toString().isNotEmpty){
+              //
+              //                   //searchProductController.initSellerProductList(userId.toString(), 1, context, 'en',value, reload: true);
+              //                 }
+              //
+              //               },
+              //             ),
+              //           ),
+              //         )),
+              //   ),
+              //   ElevatedButton(
+              //     onPressed: () {
+              //
+              //       if(searchController.text.trim().isNotEmpty){
+              //         Provider.of<OrderProvider>(context, listen: false).setIndex(context, 0,search: searchController.text);
+              //
+              //       }
+              //
+              //     },
+              //     child: const Text('search'),
+              //   ),
+              //   SizedBox(width: 10,)
+              //
+              // ],),
+          //     Padding(
+          // padding: const EdgeInsets.symmetric(
+          // horizontal: Dimensions.paddingSizeDefault,
+          // vertical: 0),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //         children: [
+          //         Row(children: [
+          //           Text('From'),
+          //           SizedBox(width: 20,),
+          //           InkWell(
+          //             onTap: () {
+          //               order.selectBookingDate('start', context);
+          //             },
+          //             child: Container(
+          //               padding: EdgeInsets.all(10),
+          //               decoration:
+          //               BoxDecoration(
+          //                 border:  Border.all(
+          //                     width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
+          //
+          //                 // color: Theme.of(context).highlightColor,
+          //                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+          //
+          //               ),child: Text( order.bookingStartDate== null ?'YYYY-MM-dd' : formatDate(order.bookingStartDate.toString())),),
+          //           ),
+          //         ],),
+          //         Row(children: [
+          //           Text('To'),
+          //           SizedBox(width: 20,),
+          //           InkWell(
+          //             onTap: (){
+          //               order.selectBookingDate('end', context);
+          //             },
+          //             child: Container(
+          //               padding: EdgeInsets.all(10),
+          //               decoration:
+          //               BoxDecoration(
+          //                 border:  Border.all(
+          //                     width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
+          //
+          //                 // color: Theme.of(context).highlightColor,
+          //                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+          //
+          //               ),child: Text(order.endDate== null ?'YYYY-MM-dd' : formatDate(order.endDate.toString())),),
+          //           ),
+          //         ],),
+          //       ],),
+          //     ),
               order.bookingModel != null
                   ? bookingList!.isNotEmpty
                       ? Expanded(

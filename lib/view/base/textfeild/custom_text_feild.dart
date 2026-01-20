@@ -167,11 +167,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
           )),
+
+
+
           filled: widget.fillColor != null,
           fillColor: widget.fillColor,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
-              vertical: 10.0, horizontal: widget.variant ? 0 : 10),
+              vertical: 14.0, horizontal: widget.variant ? 0 : 10),
           alignLabelWithHint: true,
           counterText: '',
           hintStyle:
