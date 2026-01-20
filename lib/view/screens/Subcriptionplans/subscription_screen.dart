@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:sixvalley_vendor_app/data/model/response/subscrption_model.dart';
@@ -72,7 +70,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             /* SizedBox(height: height * 0.025),
+              /* SizedBox(height: height * 0.025),
               Center(
                   child: Image.asset("assets/image/subscription.png",
                       height: height * 0.25)),
@@ -89,18 +87,19 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   : plansModel!.data == null
                       ? const Center(child: Text("No Data Found"))
                       : Expanded(
-                        child: ListView.builder(
-                                             itemCount: plansModel?.data?.length ?? 0,
-                                            itemBuilder: (context, index) {
-                                           SubscriptionList plan = plansModel!.data![index];
-                            bool isPopular = index == 0;
+                          child: ListView.builder(
+                            itemCount: plansModel?.data?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              SubscriptionList plan = plansModel!.data![index];
+                              bool isPopular = index == 0;
 
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: _buildPlanCard(plan, isPopular),
-                          );
-                        },),
-                      )
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: _buildPlanCard(plan, isPopular),
+                              );
+                            },
+                          ),
+                        )
 
               /*SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
@@ -507,17 +506,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         ));
   }
 
-
-
-
-
-
-
   SubscriptionModel? plansModel;
 
   getPlans() async {
-    var request = http.Request('GET',
-        Uri.parse('${AppConstants.baseUrl}/api/v1/auth/get_plans'));
+    var request = http.Request(
+        'GET', Uri.parse('${AppConstants.baseUrl}/api/v1/auth/get_plans'));
     http.StreamedResponse response = await request.send();
     print("sfsfsfs${request}");
     if (response.statusCode == 200) {
@@ -569,9 +562,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       required String amount}) async {
     var userIdValue = await MyToken.getUserID();
     var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            '${AppConstants.baseUrl}/api/v1/auth/purchase_plan'));
+        'POST', Uri.parse('${AppConstants.baseUrl}/api/v1/auth/purchase_plan'));
     request.fields.addAll({
       'user_id': userIdValue,
       'plan_id': planId,
@@ -581,7 +572,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     });
 
     print(request);
-    print("PURCHACE PLAN PARAM" + request.fields.toString());
+    print("PURCHACE PLAN PARAM${request.fields}");
 
     http.StreamedResponse response = await request.send();
 
@@ -598,17 +589,17 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
     }
   }
 
-
-
   Widget _buildPlanCard(SubscriptionList plan, bool isPopular) {
-    final finalPrice = calculateFinalPrice((plan.amount?? 0), (plan.discountAmount??0));
-    final discountPercent = calculateDiscount((plan.amount??0), (plan.discountAmount??0));
+    final finalPrice =
+        calculateFinalPrice((plan.amount ?? 0), (plan.discountAmount ?? 0));
+    final discountPercent =
+        calculateDiscount((plan.amount ?? 0), (plan.discountAmount ?? 0));
 
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border:  Border.all(color: Theme.of(context).primaryColor, width: 2) ,
+        border: Border.all(color: Theme.of(context).primaryColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
@@ -627,7 +618,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               padding: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColor.withValues(alpha: 0.5)],
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor.withValues(alpha: 0.3)
+                  ],
                 ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(14),
@@ -655,7 +649,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: isPopular ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.grey[50],
+              color: isPopular
+                  ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
+                  : Colors.grey[50],
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(isPopular ? 0 : 14),
                 topRight: Radius.circular(isPopular ? 0 : 14),
@@ -675,10 +671,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-
                     if (plan.status == 1)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.green[100],
                           borderRadius: BorderRadius.circular(12),
@@ -708,7 +704,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         color: Colors.black87,
                       ),
                     ),
-                    if ((plan.discountAmount??0) > 0) ...[
+                    if ((plan.discountAmount ?? 0) > 0) ...[
                       const SizedBox(width: 8),
                       Text(
                         '₹${plan.amount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}',
@@ -724,7 +720,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 if ((plan.discountAmount ?? 0) > 0) ...[
                   const SizedBox(height: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: Colors.red[100],
                       borderRadius: BorderRadius.circular(20),
@@ -732,7 +729,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.local_offer, size: 12, color: Colors.red[700]),
+                        Icon(Icons.local_offer,
+                            size: 12, color: Colors.red[700]),
                         const SizedBox(width: 4),
                         Text(
                           'Save $discountPercent% (₹${plan.discountAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')})',
@@ -749,7 +747,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
+                    Icon(Icons.calendar_today,
+                        size: 16, color: Colors.grey[600]),
                     const SizedBox(width: 6),
                     Text(
                       '${plan.days} Days Validity',
@@ -781,16 +780,19 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                
-                
-                Html(data: plan.description, style: {
-                  "h1": Style(fontSize: FontSize(22), fontWeight: FontWeight.bold),
-                  "h3": Style(fontSize: FontSize(18), fontWeight: FontWeight.w600),
-                  "p": Style(fontSize: FontSize(14)),
-                  "li": Style(fontSize: FontSize(14)),
-                  "hr": Style(margin: Margins.symmetric(vertical: 16)),
-                },),
 
+                Html(
+                  data: plan.description,
+                  style: {
+                    "h1": Style(
+                        fontSize: FontSize(22), fontWeight: FontWeight.bold),
+                    "h3": Style(
+                        fontSize: FontSize(18), fontWeight: FontWeight.w600),
+                    "p": Style(fontSize: FontSize(14)),
+                    "li": Style(fontSize: FontSize(14)),
+                    "hr": Style(margin: Margins.symmetric(vertical: 16)),
+                  },
+                ),
 
                 // _buildFeatureItem('Verified Badge & KYC Support'),
                 // _buildFeatureItem('Exclusive Marketing & Branding'),
@@ -845,7 +847,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 0,
-                      backgroundColor: isPopular ? Theme.of(context).primaryColor : Colors.orange,
+                      backgroundColor: isPopular
+                          ? Theme.of(context).primaryColor
+                          : Colors.orange,
                     ),
                     child: const Text(
                       'Subscribe Now',
@@ -883,10 +887,10 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 SnackBar(content: Text('Subscribed to ${plan.title}!')),
               );
 
-              planID = plan.id
-                  .toString();
-              planeAmount = ((plan.amount ?? 0) - (plan.discountAmount ??0)).toString();
-              checkOut((plan.amount ?? 0) - (plan.discountAmount ??0));
+              planID = plan.id.toString();
+              planeAmount =
+                  ((plan.amount ?? 0) - (plan.discountAmount ?? 0)).toString();
+              checkOut((plan.amount ?? 0) - (plan.discountAmount ?? 0));
             },
             child: const Text('Subscribe'),
           ),
@@ -905,6 +909,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   int calculateFinalPrice(int amount, int discountAmount) {
     return amount - discountAmount;
   }
+
   String getGuaranteeText(int planId) {
     return planId == 1
         ? '₹50,000 business return guaranteed in 1 year'

@@ -1,10 +1,11 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixvalley_vendor_app/data/datasource/remote/dio/dio_client.dart';
@@ -57,8 +58,6 @@ class SellerRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
-
 
   Future<ApiResponse> getService() async {
     try {
@@ -361,24 +360,22 @@ class SellerRepo {
     }
   }
 
-
   Future<ApiResponse> addservice(
-      XFile? serviceImage,
-      XFile? thumbnail,
-      SellerServiceModel serviceModel,{int? id}) async {
+      XFile? serviceImage, XFile? thumbnail, SellerServiceModel serviceModel,
+      {int? id}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString(AppConstants.token) ?? '';
-    var headers = {
-      'Authorization': 'Bearer $token'
-    };
+    print("trorrjrjr ${token}");
+    var headers = {'Authorization': 'Bearer $token'};
 
     // Position? position = await getCurrentLocation();
     // print(position);
-    http.MultipartRequest request = http.MultipartRequest('POST',
-        id== null
+    http.MultipartRequest request = http.MultipartRequest(
+        'POST',
+        id == null
             ? Uri.parse('${AppConstants.baseUrl}${AppConstants.addServiceUri}')
-            : Uri.parse('${AppConstants.baseUrl}${AppConstants.updateServiceUri}/$id')
-    );
+            : Uri.parse(
+                '${AppConstants.baseUrl}${AppConstants.updateServiceUri}/$id'));
     if (serviceImage != null) {
       Uint8List list = await serviceImage.readAsBytes();
       var part = http.MultipartFile(
@@ -397,13 +394,13 @@ class SellerRepo {
     Map<String, String> fields = {};
     fields.addAll(<String, String>{
       'name': serviceModel.name!,
-      'discount_type': serviceModel.discountType?.toLowerCase() ??'',
-      'unit_price': serviceModel.unitPrice ??'',
-      'discount': serviceModel.discount ??'',
-      'service_type':serviceModel.serviceType?.toLowerCase() ??'home',
-      'tax': serviceModel.tax ??'',
-      'tax_model': serviceModel.taxModel?.toLowerCase() ??'',
-      'description': serviceModel.description ??'',
+      'discount_type': serviceModel.discountType?.toLowerCase() ?? '',
+      'unit_price': serviceModel.unitPrice ?? '',
+      'discount': serviceModel.discount ?? '',
+      'service_type': serviceModel.serviceType?.toLowerCase() ?? 'home',
+      'tax': serviceModel.tax ?? '',
+      'tax_model': serviceModel.taxModel?.toLowerCase() ?? '',
+      'description': serviceModel.description ?? '',
       'is_faster': '${serviceModel.isFaster ?? 0}',
       'video_link': '',
       'shipping_cost': '',
@@ -412,19 +409,17 @@ class SellerRepo {
       //"to_time": '12:22'/*serviceModel.toTime*/ ?? '',
       "seller_category_id": serviceModel.sellerCategoryId ?? '',
       "seller_sub_category_id": serviceModel.sellerSubCategoryId ?? '',
-
     });
 
-    for(int i=0; i<serviceModel.timeSlot!.length; i++) {
-      fields['date[$i]'] = formatDate(serviceModel.timeSlot![i]['date'].toString());
-      fields['from_time[$i]'] = formatTime(serviceModel.timeSlot![i]['fromTime']).toString();
-      fields['to_time[$i]'] = formatTime(serviceModel.timeSlot![i]['toTime']).toString();
+    for (int i = 0; i < serviceModel.timeSlot!.length; i++) {
+      fields['date[$i]'] =
+          formatDate(serviceModel.timeSlot![i]['date'].toString());
+      fields['from_time[$i]'] =
+          formatTime(serviceModel.timeSlot![i]['fromTime']).toString();
+      fields['to_time[$i]'] =
+          formatTime(serviceModel.timeSlot![i]['toTime']).toString();
     }
-
-
-
     request.headers.addAll(headers);
-
     request.fields.addAll(fields);
     if (kDebugMode) {
       print(
@@ -458,5 +453,4 @@ class SellerRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
 }

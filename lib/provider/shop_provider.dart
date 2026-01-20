@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -94,8 +94,8 @@ class SellerProvider extends ChangeNotifier {
   List<SubCategory>? get subCategoryList => _subCategoryList;
   List<SubSubCategory>? get subSubCategoryList => _subSubCategoryList;
   List<BrandModel>? get brandList => _brandList;
-  List<SellerCategoryModel>? get sellerCategoryList => _sellerCategoryList ;
-  List<SellerSubcategory>? get sellerSubCategoryList => _sellerSubCategoryList ;
+  List<SellerCategoryModel>? get sellerCategoryList => _sellerCategoryList;
+  List<SellerSubcategory>? get sellerSubCategoryList => _sellerSubCategoryList;
 
   XFile? _pickedLogo;
   XFile? _pickedCover;
@@ -140,13 +140,11 @@ class SellerProvider extends ChangeNotifier {
   String? _digitalProductFileName;
   String? get digitalProductFileName => _digitalProductFileName;
 
-
-
-  TextEditingController   serviceName =        TextEditingController();
-  TextEditingController   serviceDescription = TextEditingController();
-  TextEditingController   unitPriceC =          TextEditingController();
-    TextEditingController tax =                TextEditingController();
-    TextEditingController discountC =                TextEditingController();
+  TextEditingController serviceName = TextEditingController();
+  TextEditingController serviceDescription = TextEditingController();
+  TextEditingController unitPriceC = TextEditingController();
+  TextEditingController tax = TextEditingController();
+  TextEditingController discountC = TextEditingController();
   String? serviceDiscountType;
   String? texModel;
   String? serviceType;
@@ -155,23 +153,24 @@ class SellerProvider extends ChangeNotifier {
   XFile? _serviceImage;
   XFile? get serviceThumbnail => _serviceThumbnail;
   XFile? get serviceImage => _serviceImage;
-  List <ManageServiceModel>? _manageServiceList ;
-  List <ManageServiceModel>?  get manageServiceList => _manageServiceList;
+  List<ManageServiceModel>? _manageServiceList;
+  List<ManageServiceModel>? get manageServiceList => _manageServiceList;
 
-
-
-
-  void pickServiceImage(bool image, bool serviceThumbnail, bool isRemove,) async {
+  void pickServiceImage(
+    bool image,
+    bool serviceThumbnail,
+    bool isRemove,
+  ) async {
     if (isRemove) {
       _serviceImage = null;
       _serviceThumbnail = null;
-
     } else {
       if (image) {
         _serviceImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+            await ImagePicker().pickImage(source: ImageSource.gallery);
       } else if (serviceThumbnail) {
-        _serviceThumbnail = await ImagePicker().pickImage(source: ImageSource.gallery);
+        _serviceThumbnail =
+            await ImagePicker().pickImage(source: ImageSource.gallery);
       }
     }
 
@@ -517,7 +516,6 @@ class SellerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   ///service section
   Future<void> getSubSubCategoryList(int? selectedIndex, bool notify) async {
     _subSubCategoryIndex = 0;
@@ -539,13 +537,12 @@ class SellerProvider extends ChangeNotifier {
     }
   }
 
-
   Future<void> getSellerCategory(BuildContext context, String language) async {
     ApiResponse response = await shopRepo!.getSellerCategoryList(language);
     if (response.response!.statusCode == 200) {
       _sellerCategoryList = [];
-      response.response!.data
-          .forEach((category) => _sellerCategoryList!.add(SellerCategoryModel.fromJson(category)));
+      response.response!.data.forEach((category) =>
+          _sellerCategoryList!.add(SellerCategoryModel.fromJson(category)));
     } else {
       ApiChecker.checkApi(response);
     }
@@ -553,25 +550,23 @@ class SellerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getSellerSubCategoryList(int selectedIndex,{bool? forUpdate, int? id}) async {
-
-
-    _selectedSellerCate = _sellerCategoryList?[selectedIndex].name ;
+  Future<void> getSellerSubCategoryList(int selectedIndex,
+      {bool? forUpdate, int? id}) async {
+    _selectedSellerCate = _sellerCategoryList?[selectedIndex].name;
     _selectedSellerCateId = _sellerCategoryList?[selectedIndex].id;
 
-    _selectedSellerSubCate = null ;
+    _selectedSellerSubCate = null;
 
-    _sellerSubCategoryList = _sellerCategoryList?[selectedIndex].childes ?? [] ;
+    _sellerSubCategoryList = _sellerCategoryList?[selectedIndex].childes ?? [];
 
-    if(forUpdate ?? false){
-      _sellerSubCategoryList?.forEach((element) {
-        if(element.id == id){
-
-          _selectedSellerSubCate = element.name;
-        }
-
-
-      },);
+    if (forUpdate ?? false) {
+      _sellerSubCategoryList?.forEach(
+        (element) {
+          if (element.id == id) {
+            _selectedSellerSubCate = element.name;
+          }
+        },
+      );
     }
 
     notifyListeners();
@@ -595,68 +590,56 @@ class SellerProvider extends ChangeNotifier {
   }
 
   Future<void> selectSellerSubCategory(int selectedIndex) async {
-
-    _selectedSellerSubCate = sellerSubCategoryList?[selectedIndex].name ;
+    _selectedSellerSubCate = sellerSubCategoryList?[selectedIndex].name;
     _selectedSellerSubCateId = sellerSubCategoryList?[selectedIndex].id;
 
     notifyListeners();
-
   }
 
   Future<void> deleteService(BuildContext context, int? id) async {
     _editProduct = null;
     ApiResponse response = await shopRepo!.deleteService(id);
     if (response.response != null && response.response!.statusCode == 200) {
+      getService();
 
-      getService() ;
-
-      showCustomSnackBar(
-          response.response?.data['message'] ?? '',
-          Get.context!,
-          isError: false) ;
-
+      showCustomSnackBar(response.response?.data['message'] ?? '', Get.context!,
+          isError: false);
     } else {
-      showCustomSnackBar(
-          response.response?.data['message'] ?? '',
-          Get.context!,
-          isError: false) ;
+      showCustomSnackBar(response.response?.data['message'] ?? '', Get.context!,
+          isError: false);
       ApiChecker.checkApi(response);
     }
     notifyListeners();
   }
 
-  bool _isServiceLoading = false ;
-  bool get isServiceLoading => _isServiceLoading ;
+  bool _isServiceLoading = false;
+  bool get isServiceLoading => _isServiceLoading;
 
   Future<void> getService() async {
-    _isServiceLoading = true ;
+    _isServiceLoading = true;
     notifyListeners();
     ApiResponse response = await shopRepo!.getService();
     if (response.response!.statusCode == 200) {
       _sellerCategoryList = [];
 
-      _manageServiceList = (response.response!.data['data'] as List).map((item) => ManageServiceModel.fromJson(item)).toList() ;
-
-
+      _manageServiceList = (response.response!.data['data'] as List)
+          .map((item) => ManageServiceModel.fromJson(item))
+          .toList();
     } else {
       ApiChecker.checkApi(response);
     }
-    _isServiceLoading = false ;
-
+    _isServiceLoading = false;
 
     notifyListeners();
   }
 
-
-
-
-
-
   Future<ApiResponse> addService(
-      BuildContext context, SellerServiceModel serviceModel,{int? id}) async {
+      BuildContext context, SellerServiceModel serviceModel,
+      {int? id}) async {
     _isLoading = true;
     notifyListeners();
-    ApiResponse response = await shopRepo!.addservice(_serviceImage, _serviceThumbnail,serviceModel,id: id);
+    ApiResponse response = await shopRepo!
+        .addservice(_serviceImage, _serviceThumbnail, serviceModel, id: id);
     if (response.response!.statusCode == 200) {
       _isLoading = false;
       serviceName.clear();
@@ -671,14 +654,12 @@ class SellerProvider extends ChangeNotifier {
       texModel = null;
       serviceType = null;
       Navigator.pop(context);
-      getService() ;
-
+      getService();
 
       showCustomSnackBar(
-          /*getTranslated("you_are_successfully_registered", Get.context!)*/'${id==null ? 'Added':'Updated'} successfully',
+          /*getTranslated("you_are_successfully_registered", Get.context!)*/ '${id == null ? 'Added' : 'Updated'} successfully',
           Get.context!,
           isError: false);
-
     } else {
       _isLoading = false;
       Map map = response.response!.data;
@@ -689,12 +670,6 @@ class SellerProvider extends ChangeNotifier {
     notifyListeners();
     return response;
   }
-
-
-
-
-
-
 
   late ImageModel thumbnail;
   late ImageModel metaImage;
