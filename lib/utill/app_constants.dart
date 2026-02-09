@@ -7,7 +7,7 @@ class AppConstants {
   static const String appVersion = '1.0';
   static const String companyName = 'BOOKAART ARTIST';
   //static const String baseUrl = 'https://townway.alphawizzserver.com';
-  static const String baseUrl = 'https://bookaart.developmentalphawizz.com';
+  static const String baseUrl = 'https://bookaart.com';
   static const String loginUri = '/api/v3/seller/auth/login';
   static const String configUri = '/api/v1/config';
   static const String sellerUri = '/api/v3/seller/seller-info';

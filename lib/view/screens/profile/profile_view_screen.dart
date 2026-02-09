@@ -125,7 +125,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               itemBuilder: (context, index) {
                 final file = allFiles[index];
                 final fileUrl =
-                    "https://bookaart.developmentalphawizz.com/public/storage/seller/$file";
+                    "https://bookaart.com/public/storage/seller/$file";
 
                 return GestureDetector(
                   onTap: () => _openImage(context, fileUrl),
