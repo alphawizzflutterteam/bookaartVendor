@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixvalley_vendor_app/utill/app_constants.dart';
 import 'package:sixvalley_vendor_app/view/screens/Subcriptionplans/MyBookingDetails.dart';
+
 import '../../../localization/language_constrants.dart';
 import '../../base/custom_app_bar.dart';
 import '../Service/MyBookingModel.dart';
@@ -69,8 +71,7 @@ class _MyBookingPageState extends State<MyBookingPage> {
       setState(() => isLoading = true);
       final headers = {'Authorization': 'Bearer $token'};
       final response = await http.get(
-        Uri.parse(
-            '${AppConstants.baseUrl}/api/v3/seller/services/my_booking'),
+        Uri.parse('${AppConstants.baseUrl}/api/v3/seller/services/my_booking'),
         headers: headers,
       );
 
@@ -191,7 +192,7 @@ class _MyBookingPageState extends State<MyBookingPage> {
                                     padding: const EdgeInsets.only(bottom: 5),
                                     child: DetailRow(
                                         label: "Name",
-                                        value: "${booking?.patientName ?? ''}",
+                                        value: booking?.patientName ?? '',
                                         isRequired: false),
                                   ),
                                   subtitle: Column(
@@ -200,24 +201,21 @@ class _MyBookingPageState extends State<MyBookingPage> {
                                     children: [
                                       DetailRow(
                                           label: "Number",
-                                          value:
-                                              "${booking?.patientMobile ?? ''}",
+                                          value: booking?.patientMobile ?? '',
                                           isRequired: false),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       DetailRow(
                                           label: "Email",
-                                          value:
-                                              "${booking?.patientEmail ?? ''}",
+                                          value: booking?.patientEmail ?? '',
                                           isRequired: false),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       DetailRow(
                                           label: "Address",
-                                          value:
-                                              "${booking?.googleAddress ?? ''}",
+                                          value: booking?.googleAddress ?? '',
                                           isRequired: false),
                                       SizedBox(
                                         height: 5,

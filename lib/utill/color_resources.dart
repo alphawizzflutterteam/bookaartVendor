@@ -262,12 +262,11 @@ class ColorResources {
   }
 
   static Color secondaryColor = const Color(0xFFE0EC53);
-  static Color primary = const Color(0xFF0188D0);
+  static Color primary = const Color(0xFF3E3D9B);
   static const Color black = Color(0xff000000);
   static Color gradientColor = const Color(0xFF45A735);
   static Color textColor = const Color(0xFF6C7278);
   static Color borderColor = const Color(0xFFEDF1F3);
-
   static const Color white = Color(0xffFFFFFF);
   static const Color colorBlue = Color(0xff00ADE3);
   static const Color colombiaBlue = Color(0xff00ADE3);

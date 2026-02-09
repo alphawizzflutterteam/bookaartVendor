@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/provider/shop_info_provider.dart';
 import 'package:sixvalley_vendor_app/provider/splash_provider.dart';
 import 'package:sixvalley_vendor_app/utill/color_resources.dart';
@@ -10,6 +9,8 @@ import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_image.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_loader.dart';
+
+import '../../../../localization/language_constrants.dart';
 
 class ShopInformationWidget extends StatelessWidget {
   final ShopProvider? resProvider;

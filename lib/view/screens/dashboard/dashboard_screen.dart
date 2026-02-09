@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/helper/network_info.dart';
@@ -16,7 +15,6 @@ import 'package:sixvalley_vendor_app/view/screens/Service/manage_Service.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/home_page_screen.dart';
 import 'package:sixvalley_vendor_app/view/screens/menu/menu_screen.dart';
 import 'package:sixvalley_vendor_app/view/screens/order/order_screen.dart';
-import 'package:sixvalley_vendor_app/view/screens/refund/refund_screen.dart';
 
 import '../../base/custom_button.dart';
 import '../Subcriptionplans/subscription_screen.dart';
@@ -50,7 +48,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       }),
       const OrderScreen(),
       const ManageServicesScreen()
-     //const RefundScreen(),
+      //const RefundScreen(),
     ];
 
     NetworkInfo.checkConnectivity(context);
@@ -70,7 +68,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       /*Provider.of<OrderProvider>(context, listen: false)
           .getOrderList(context, 1, 'all');*/
       Provider.of<OrderProvider>(context, listen: false)
-          .getBookingList(context, 1, 'all','','');
+          .getBookingList(context, 1, 'all', '', '');
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -225,7 +223,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Theme.of(context).highlightColor,
+          // backgroundColor: Theme.of(context).highlightColor,
           selectedItemColor: Theme.of(context).primaryColor,
           unselectedItemColor: ColorResources.colorLightBlack,
           selectedFontSize: Dimensions.fontSizeSmall,
@@ -237,7 +235,8 @@ class DashboardScreenState extends State<DashboardScreen> {
           items: [
             _barItem(Images.home, getTranslated('home', context), 0),
             _barItem(Images.order, getTranslated('my_order', context), 1),
-            _barItem(Images.settings, /*getTranslated('refund', context)*/'Service', 2),
+            _barItem(Images.settings,
+                /*getTranslated('refund', context)*/ 'Service', 2),
             _barItem(Images.menu, getTranslated('menu', context), 3)
           ],
           onTap: (int index) {

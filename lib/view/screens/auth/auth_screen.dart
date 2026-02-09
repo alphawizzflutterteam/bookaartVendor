@@ -138,7 +138,7 @@ class AuthScreen extends StatelessWidget {
                 ),
               ),*/
               SizedBox(
-                height: 350, // IMPORTANT for PageView
+                height: 390, // IMPORTANT for PageView
                 child: Consumer<AuthProvider>(
                   builder: (context, authProvider, child) => PageView.builder(
                     controller: pageController,

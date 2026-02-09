@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 class SellerModel {
   int? id;
   String? fName;
   String? lName;
+  String? description;
   String? phone;
   String? image;
   String? email;
@@ -38,11 +41,16 @@ class SellerModel {
   String? area;
   String? state;
   String? zipCode;
+  int? subscription;
+  List<String>? file;
+  List<String>? pdf;
+  List<Availability>? availability;
 
   SellerModel(
       {this.id,
       this.fName,
       this.lName,
+      this.description,
       this.phone,
       this.image,
       this.email,
@@ -75,14 +83,21 @@ class SellerModel {
       this.area,
       this.city,
       this.state,
-      this.zipCode,this.sellerCategoryId,this.sellerSubCategoryId});
+      this.zipCode,
+      this.sellerCategoryId,
+      this.sellerSubCategoryId,
+      this.subscription,
+      this.file,
+      this.pdf,
+      this.availability});
 
   SellerModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    sellerCategoryId =    json['seller_category_id'];
+    sellerCategoryId = json['seller_category_id'];
     sellerSubCategoryId = json['seller_sub_category_id'];
     fName = json['f_name'];
     lName = json['l_name'];
+    description = json['description'];
     phone = json['phone'];
     image = json['image'];
     email = json['email'];
@@ -127,15 +142,37 @@ class SellerModel {
     area = json['area'];
     city = json['city'];
     state = json['state'];
+    subscription = json['subscription'];
+    if (json['file'] != null) {
+      if (json['file'] is String) {
+        file = List<String>.from(jsonDecode(json['file']));
+      } else if (json['file'] is List) {
+        file = List<String>.from(json['file']);
+      }
+    }
+    if (json['pdf'] != null) {
+      if (json['pdf'] is String) {
+        pdf = List<String>.from(jsonDecode(json['pdf']));
+      } else if (json['pdf'] is List) {
+        pdf = List<String>.from(json['pdf']);
+      }
+    }
+    if (json['availability'] != null) {
+      availability = <Availability>[];
+      json['availability'].forEach((v) {
+        availability!.add(new Availability.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['seller_category_id'] = sellerCategoryId;
-    data['seller_sub_category_id'] =sellerSubCategoryId;
+    data['seller_sub_category_id'] = sellerSubCategoryId;
     data['f_name'] = fName;
     data['l_name'] = lName;
+    data['description'] = description;
     data['phone'] = phone;
     data['earning_wallet'] = earning_wallet;
     data['image'] = image;
@@ -171,6 +208,35 @@ class SellerModel {
     data['plan_id'] = this.planId;
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
+    data['subscription'] = this.subscription;
+    data['file'] = file;
+    data['pdf'] = pdf;
+    if (this.availability != null) {
+      data['availability'] = this.availability!.map((v) => v.toJson()).toList();
+    }
+
+    return data;
+  }
+}
+
+class Availability {
+  String? date;
+  String? from;
+  String? to;
+
+  Availability({this.date, this.from, this.to});
+
+  Availability.fromJson(Map<String, dynamic> json) {
+    date = json['date'];
+    from = json['from'];
+    to = json['to'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['date'] = this.date;
+    data['from'] = this.from;
+    data['to'] = this.to;
     return data;
   }
 }

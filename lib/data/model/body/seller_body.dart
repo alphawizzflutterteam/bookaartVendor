@@ -2,6 +2,7 @@ class SellerBody {
   String? _sMethod;
   String? _fName;
   String? _lName;
+  String? _description;
   String? _bankName;
   String? _branch;
   String? _accountNo;
@@ -17,6 +18,7 @@ class SellerBody {
       {String? sMethod,
       String? fName,
       String? lName,
+      String? description,
       String? bankName,
       String? branch,
       String? accountNo,
@@ -24,11 +26,13 @@ class SellerBody {
       String? password,
       String? image,
       String? type,
-      String? ifscNo ,int? categoryId,
+      String? ifscNo,
+      int? categoryId,
       int? subCategoryId}) {
     _sMethod = sMethod;
     _fName = fName;
     _lName = lName;
+    _description = description;
     _bankName = bankName;
     _branch = branch;
     _accountNo = accountNo;
@@ -44,6 +48,7 @@ class SellerBody {
   String? get sMethod => _sMethod;
   String? get fName => _fName;
   String? get lName => _lName;
+  String? get description => _description;
   String? get bankName => _bankName;
   String? get branch => _branch;
   String? get accountNo => _accountNo;
@@ -59,6 +64,7 @@ class SellerBody {
     _sMethod = json['_method'];
     _fName = json['f_name'];
     _lName = json['l_name'];
+    _description = json['_description'];
     _bankName = json['bank_name'];
     _branch = json['branch'];
     _accountNo = json['account_no'];
@@ -76,6 +82,7 @@ class SellerBody {
     data['_method'] = _sMethod;
     data['f_name'] = _fName;
     data['l_name'] = _lName;
+    data['_description'] = _description;
     data['bank_name'] = _bankName;
     data['branch'] = _branch;
     data['account_no'] = _accountNo;

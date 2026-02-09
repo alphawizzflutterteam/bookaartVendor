@@ -2,21 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sixvalley_vendor_app/data/model/response/booking_model.dart';
-import 'package:sixvalley_vendor_app/data/model/response/order_model.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/provider/order_provider.dart';
 import 'package:sixvalley_vendor_app/utill/color_resources.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
-import 'package:sixvalley_vendor_app/utill/globles.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_app_bar.dart';
 import 'package:sixvalley_vendor_app/view/base/no_data_screen.dart';
 import 'package:sixvalley_vendor_app/view/base/paginated_list_view.dart';
-import 'package:sixvalley_vendor_app/view/base/textfeild/custom_text_feild.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/order_widget.dart';
-
-import '../../../utill/images.dart';
-import '../../base/custom_search_field.dart';
 
 class OrderScreen extends StatefulWidget {
   final bool isBacButtonExist;
@@ -35,11 +29,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
       appBar: CustomAppBar(
-          title: /*getTranslated('my_order', context)*/'Bookings',
+          title: /*getTranslated('my_order', context)*/ 'Bookings',
           isBackButtonExist: widget.isBacButtonExist),
       body: Consumer<OrderProvider>(
         builder: (context, order, child) {
@@ -129,101 +122,112 @@ class _OrderScreenState extends State<OrderScreen> {
               //   SizedBox(width: 10,)
               //
               // ],),
-          //     Padding(
-          // padding: const EdgeInsets.symmetric(
-          // horizontal: Dimensions.paddingSizeDefault,
-          // vertical: 0),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         children: [
-          //         Row(children: [
-          //           Text('From'),
-          //           SizedBox(width: 20,),
-          //           InkWell(
-          //             onTap: () {
-          //               order.selectBookingDate('start', context);
-          //             },
-          //             child: Container(
-          //               padding: EdgeInsets.all(10),
-          //               decoration:
-          //               BoxDecoration(
-          //                 border:  Border.all(
-          //                     width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
-          //
-          //                 // color: Theme.of(context).highlightColor,
-          //                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-          //
-          //               ),child: Text( order.bookingStartDate== null ?'YYYY-MM-dd' : formatDate(order.bookingStartDate.toString())),),
-          //           ),
-          //         ],),
-          //         Row(children: [
-          //           Text('To'),
-          //           SizedBox(width: 20,),
-          //           InkWell(
-          //             onTap: (){
-          //               order.selectBookingDate('end', context);
-          //             },
-          //             child: Container(
-          //               padding: EdgeInsets.all(10),
-          //               decoration:
-          //               BoxDecoration(
-          //                 border:  Border.all(
-          //                     width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
-          //
-          //                 // color: Theme.of(context).highlightColor,
-          //                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-          //
-          //               ),child: Text(order.endDate== null ?'YYYY-MM-dd' : formatDate(order.endDate.toString())),),
-          //           ),
-          //         ],),
-          //       ],),
-          //     ),
+              //     Padding(
+              // padding: const EdgeInsets.symmetric(
+              // horizontal: Dimensions.paddingSizeDefault,
+              // vertical: 0),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //         children: [
+              //         Row(children: [
+              //           Text('From'),
+              //           SizedBox(width: 20,),
+              //           InkWell(
+              //             onTap: () {
+              //               order.selectBookingDate('start', context);
+              //             },
+              //             child: Container(
+              //               padding: EdgeInsets.all(10),
+              //               decoration:
+              //               BoxDecoration(
+              //                 border:  Border.all(
+              //                     width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
+              //
+              //                 // color: Theme.of(context).highlightColor,
+              //                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+              //
+              //               ),child: Text( order.bookingStartDate== null ?'YYYY-MM-dd' : formatDate(order.bookingStartDate.toString())),),
+              //           ),
+              //         ],),
+              //         Row(children: [
+              //           Text('To'),
+              //           SizedBox(width: 20,),
+              //           InkWell(
+              //             onTap: (){
+              //               order.selectBookingDate('end', context);
+              //             },
+              //             child: Container(
+              //               padding: EdgeInsets.all(10),
+              //               decoration:
+              //               BoxDecoration(
+              //                 border:  Border.all(
+              //                     width: 1, color: Theme.of(context).hintColor.withOpacity(.35)),
+              //
+              //                 // color: Theme.of(context).highlightColor,
+              //                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+              //
+              //               ),child: Text(order.endDate== null ?'YYYY-MM-dd' : formatDate(order.endDate.toString())),),
+              //           ),
+              //         ],),
+              //       ],),
+              //     ),
               order.bookingModel != null
                   ? bookingList!.isNotEmpty
                       ? Expanded(
-                        child: SingleChildScrollView(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              //await order.getOrderList(context, 1, order.orderType);
-                              await order.getBookingList(context, 1, order.orderType, order.startDate.toString(),order.endDate.toString());
-                            },
-                            child: PaginatedListView(
-                              reverse: false,
-                              scrollController: scrollController,
-                              enabledPagination: true,
-                              totalSize: order.bookingModel?.totalSize,
-                              offset: order.bookingModel != null
-                                  ? int.parse(
-                                      order.bookingModel!.offset.toString())
-                                  : null,
-                              onPaginate: (int? offset) async {
-                                await order.getBookingList(context, offset!, order.orderType, order.startDate.toString(),order.endDate.toString(),reload: false);
-                               /* await order.getOrderList(
+                          child: SingleChildScrollView(
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                //await order.getOrderList(context, 1, order.orderType);
+                                await order.getBookingList(
+                                    context,
+                                    1,
+                                    order.orderType,
+                                    order.startDate.toString(),
+                                    order.endDate.toString());
+                              },
+                              child: PaginatedListView(
+                                reverse: false,
+                                scrollController: scrollController,
+                                enabledPagination: true,
+                                totalSize: order.bookingModel?.totalSize,
+                                offset: order.bookingModel != null
+                                    ? int.parse(
+                                        order.bookingModel!.offset.toString())
+                                    : null,
+                                onPaginate: (int? offset) async {
+                                  await order.getBookingList(
+                                      context,
+                                      offset!,
+                                      order.orderType,
+                                      order.startDate.toString(),
+                                      order.endDate.toString(),
+                                      reload: false);
+                                  /* await order.getOrderList(
                                     context, offset!, order.orderType,
                                     reload: false);*/
-                              },
-                              itemView: ListView.builder(
-                                itemCount: bookingList.length,
-                                padding: const EdgeInsets.all(0),
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                  return BookingWidget(
-                                    bookingModel: bookingList![index],
-                                    index: index,
-                                  );
+                                },
+                                itemView: ListView.builder(
+                                  itemCount: bookingList.length,
+                                  padding: const EdgeInsets.all(0),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return BookingWidget(
+                                      bookingModel: bookingList![index],
+                                      index: index,
+                                    );
 
-                                      /*OrderWidget(
+                                    /*OrderWidget(
                                     orderModel: bookingList![index],
                                     index: index,
                                   );*/
-                                },
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
+                        )
                       : const Expanded(
                           child: NoDataScreen(
                           title: 'no_order_found',
@@ -249,7 +253,7 @@ class OrderShimmer extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
           padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-          color: Theme.of(context).highlightColor,
+          color: Colors.grey.shade50,
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,

@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:map_location_picker/map_location_picker.dart';
-
 // import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
@@ -19,8 +17,6 @@ import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/utill/styles.dart';
 import 'package:sixvalley_vendor_app/view/base/textfeild/custom_pass_textfeild.dart';
 import 'package:sixvalley_vendor_app/view/base/textfeild/custom_text_feild.dart';
-import 'package:sixvalley_vendor_app/view/screens/Service/colors.dart';
-import 'package:sixvalley_vendor_app/view/screens/Service/widget.dart';
 import 'package:sixvalley_vendor_app/view/screens/more/html_view_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -200,22 +196,22 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                     ),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeMedium),
-                  Container(
-                    margin: const EdgeInsets.only(
-                        left: Dimensions.paddingSizeLarge,
-                        right: Dimensions.paddingSizeLarge,
-                        bottom: Dimensions.paddingSizeSmall),
-                    child: CustomTextField(
-                      border: true,
-                      hintText: 'Description',
-                      // focusNode: authProvider.emailNode,
-                      // nextNode: authProvider.phoneNode,
-                      textInputType: TextInputType.text,
-                      controller: authProvider.descriptionController,
-                      textInputAction: TextInputAction.next,
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeMedium),
+                  // Container(
+                  //   margin: const EdgeInsets.only(
+                  //       left: Dimensions.paddingSizeLarge,
+                  //       right: Dimensions.paddingSizeLarge,
+                  //       bottom: Dimensions.paddingSizeSmall),
+                  //   child: CustomTextField(
+                  //     border: true,
+                  //     hintText: 'Description',
+                  //     // focusNode: authProvider.emailNode,
+                  //     // nextNode: authProvider.phoneNode,
+                  //     textInputType: TextInputType.text,
+                  //     controller: authProvider.descriptionController,
+                  //     textInputAction: TextInputAction.next,
+                  //   ),
+                  // ),
+                  // const SizedBox(height: Dimensions.paddingSizeMedium),
                   Container(
                       margin: const EdgeInsets.only(
                           left: Dimensions.paddingSizeLarge,
@@ -453,7 +449,7 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                       },
                       controller: authProvider.shopAddressController,
                       decoration: InputDecoration(
-                        hintText: 'Shop Address',
+                        hintText: 'Artist Address',
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: Theme.of(context).primaryColor,
@@ -561,7 +557,7 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text('Seller Category',
+                                child: Text('Artist Category',
                                     style: robotoRegular.copyWith(
                                         fontSize: Dimensions.fontSizeDefault)),
                               ),
@@ -574,7 +570,7 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                                         .toList() ??
                                     [],
                                 value: provider.selectedSellerCate,
-                                hintText: 'Seller Category',
+                                hintText: 'Artist Category',
                                 onChanged: (value) {
                                   int index =
                                       provider.sellerCategoryList!.indexWhere(
@@ -593,7 +589,7 @@ class _InfoFieldVIewState extends State<InfoFieldVIew> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 10),
-                                child: Text('Seller Sub Category',
+                                child: Text('Artist Sub Category',
                                     style: robotoRegular.copyWith(
                                         fontSize: Dimensions.fontSizeDefault)),
                               ),

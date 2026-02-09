@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixvalley_vendor_app/data/datasource/remote/dio/dio_client.dart';
 import 'package:sixvalley_vendor_app/data/datasource/remote/exception/api_error_handler.dart';
@@ -8,7 +10,6 @@ import 'package:sixvalley_vendor_app/data/model/body/seller_body.dart';
 import 'package:sixvalley_vendor_app/data/model/response/base/api_response.dart';
 import 'package:sixvalley_vendor_app/data/model/response/seller_info.dart';
 import 'package:sixvalley_vendor_app/utill/app_constants.dart';
-import 'package:http/http.dart' as http;
 
 import '../model/response/kyc_model.dart';
 
@@ -26,8 +27,16 @@ class ProfileRepo {
     }
   }
 
-  Future<http.StreamedResponse> updateProfile(SellerModel userInfoModel,
-      SellerBody seller, File? file, String token, String password) async {
+  Future<http.StreamedResponse> updateProfile(
+    SellerModel userInfoModel,
+    SellerBody seller,
+    File? file,
+    String token,
+    String password,
+    List<File> multipleFiles,
+    List<File> pdfFiles,
+    List<String> availability,
+  ) async {
     http.MultipartRequest request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -39,6 +48,31 @@ class ProfileRepo {
           'image', file.readAsBytes().asStream(), file.lengthSync(),
           filename: file.path.split('/').last));
     }
+    if (multipleFiles.isNotEmpty) {
+      for (var doc in multipleFiles) {
+        request.files.add(
+          http.MultipartFile(
+            'file[]',
+            doc.readAsBytes().asStream(),
+            doc.lengthSync(),
+            filename: doc.path.split('/').last,
+          ),
+        );
+      }
+    }
+    if (pdfFiles.isNotEmpty) {
+      for (var doc in pdfFiles) {
+        request.files.add(
+          http.MultipartFile(
+            'pdf[]',
+            doc.readAsBytes().asStream(),
+            doc.lengthSync(),
+            filename: doc.path.split('/').last,
+          ),
+        );
+      }
+    }
+    print("reeejdjjdjd ${request.files}");
     fields.addAll(<String, String>{
       '_method': 'put',
       'f_name': userInfoModel.fName!,
@@ -50,8 +84,10 @@ class ProfileRepo {
       'city': userInfoModel.city ?? '',
       'area': userInfoModel.area ?? '',
       'zipcode': userInfoModel.zipCode ?? '',
+      'description': userInfoModel.description ?? '',
       'seller_category_id': '${userInfoModel.sellerCategoryId ?? ''}',
-      'seller_sub_category_id': '${userInfoModel.sellerSubCategoryId ?? ''}'
+      'seller_sub_category_id': '${userInfoModel.sellerSubCategoryId ?? ''}',
+      'availability': availability.toString()
     });
     if (password.isNotEmpty) {
       fields.addAll({'password': password});
@@ -61,13 +97,13 @@ class ProfileRepo {
     }
     request.fields.addAll(fields);
     http.StreamedResponse response = await request.send();
-     var res = await http.Response.fromStream(response);
+    var res = await http.Response.fromStream(response);
     return response;
   }
 
   Future<ApiResponse> getKYC(String userId) async {
     try {
-      Map data = {"user_id": "$userId", "type": "user"};
+      Map data = {"user_id": userId, "type": "user"};
       final response = await dioClient!.post(AppConstants.getKYC, data: data);
       return ApiResponse.withSuccess(response);
     } catch (e) {

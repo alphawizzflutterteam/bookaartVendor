@@ -223,7 +223,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   Icons
                                                                       .check_circle,
                                                                   color: Color(
-                                                                      0xff0007a3),
+                                                                      0xFF3E3D9B),
                                                                   size: 20),
                                                               SizedBox(
                                                                   width: 6),
@@ -249,7 +249,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   Icons
                                                                       .check_circle,
                                                                   color: Color(
-                                                                      0xff0007a3),
+                                                                      0xFF3E3D9B),
                                                                   size: 18),
                                                               SizedBox(
                                                                   width: 6),
@@ -275,7 +275,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                                                   Icons
                                                                       .check_circle,
                                                                   color: Color(
-                                                                      0xff0007a3),
+                                                                      0xFF3E3D9B),
                                                                   size: 18),
                                                               SizedBox(
                                                                   width: 6),
@@ -378,7 +378,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               //             Icon(
                                               //               Icons.check_circle,
                                               //               color: Color(
-                                              //                   0xff0007a3),
+                                              //                   0xFF3E3D9B),
                                               //               size: 20,
                                               //             ),
                                               //             SizedBox(width: 6),
@@ -404,7 +404,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               //             const Icon(
                                               //               Icons.check_circle,
                                               //               color: Color(
-                                              //                   0xff0007a3),
+                                              //                   0xFF3E3D9B),
                                               //               size: 18,
                                               //             ),
                                               //             const SizedBox(
@@ -432,7 +432,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                                               //             const Icon(
                                               //               Icons.check_circle,
                                               //               color: Color(
-                                              //                   0xff0007a3),
+                                              //                   0xFF3E3D9B),
                                               //               size: 18,
                                               //             ),
                                               //             const SizedBox(
@@ -533,10 +533,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       'key': "rzp_test_CpvP0qcfS4CSJD",
       'amount': price * 100,
       'currency': 'INR',
-      'name': 'Glowdrop',
+      'name': 'BookAart',
       'description': '',
-      "image":
-          "${AppConstants.baseUrl}/storage/app/public/company/2025-08-14-689db8bde2f15.png",
+      "image": "assets/image/logo_image.png",
       // 'prefill': {'contact': userMobile, 'email': userEmail},
     };
     print("OPTIONS ===== $options");

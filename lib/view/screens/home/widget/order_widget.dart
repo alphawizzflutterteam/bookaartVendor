@@ -472,6 +472,12 @@ class BookingWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text(bookingModel.service?.name.toString() ?? '',
+                                style: robotoRegular.copyWith(
+                                    color: Theme.of(context).hintColor)),
+                            SizedBox(
+                              height: 4,
+                            ),
                             bookingModel.createdAt != null
                                 ? Text(
                                     DateConverter.localDateToIsoStringAMPM(
@@ -483,25 +489,25 @@ class BookingWidget extends StatelessWidget {
                             SizedBox(
                               height: 5,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Service:',
-                                ),
-                                Text(
-                                  '${bookingModel.service?.name}',
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: Dimensions.paddingSizeSmall),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Booking Note"),
-                                Text(bookingModel.orderNote ?? "")
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       'Service:',
+                            //     ),
+                            //     Text(
+                            //       '${bookingModel.service?.name}',
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: Dimensions.paddingSizeSmall),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text("Booking Note"),
+                            //     Text(bookingModel.orderNote ?? "")
+                            //   ],
+                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -582,12 +588,15 @@ class BookingWidget extends StatelessWidget {
                                       children: [
                                         Expanded(
                                           child: InkWell(
-                                            onTap: (){
-
+                                            onTap: () {
+                                              print(
+                                                  "zdsddsf ${order.orderType}");
                                               //Confirm == '1', Cancel o r reject == '4' for api
-                                              order.updateBookingStatus(bookingModel.id, '1', context, order.orderType);
-
-
+                                              order.updateBookingStatus(
+                                                  bookingModel.id,
+                                                  '1',
+                                                  context,
+                                                  'pending');
                                             },
                                             child: Container(
                                                 height: 30,
@@ -610,9 +619,13 @@ class BookingWidget extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: InkWell(
-                                            onTap: (){
+                                            onTap: () {
                                               //Confirm == '1', Cancel o r reject == '4' for api
-                                              order.updateBookingStatus(bookingModel.id, '4', context, order.orderType);
+                                              order.updateBookingStatus(
+                                                  bookingModel.id,
+                                                  '4',
+                                                  context,
+                                                  'pending');
                                             },
                                             child: Container(
                                                 height: 30,

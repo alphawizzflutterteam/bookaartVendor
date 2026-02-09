@@ -11,6 +11,7 @@ import 'package:sixvalley_vendor_app/helper/api_checker.dart';
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/main.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_snackbar.dart';
+import 'package:sixvalley_vendor_app/view/screens/auth/WaitinScreen.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthRepo? authRepo;
@@ -90,7 +91,7 @@ class AuthProvider with ChangeNotifier {
         isOtpLogin: isOtpLogin,
         deviceToken: token,
         otp: otp);
-    print("login_______${ApiResponse}");
+    print("login_______$ApiResponse");
 
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
@@ -104,6 +105,8 @@ class AuthProvider with ChangeNotifier {
           getTranslated(
               'invalid_credential_or_account_not_verified_yet', Get.context!),
           Get.context!);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WaitingScreen()));
     }
     notifyListeners();
     return apiResponse;
@@ -293,7 +296,7 @@ class AuthProvider with ChangeNotifier {
 
   void pickImage(bool isProfile, bool shopLogo, bool isRemove, bool isAadhar,
       bool isPanCard,
-      {bool secondary = false,bool isAadharBack = false}) async {
+      {bool secondary = false, bool isAadharBack = false}) async {
     if (isRemove) {
       _sellerProfileImage = null;
       _shopLogo = null;
@@ -313,9 +316,9 @@ class AuthProvider with ChangeNotifier {
       } else if (isPanCard) {
         _panCard = await ImagePicker().pickImage(source: ImageSource.gallery);
       } else if (isAadharBack) {
-        _aadharBack = await ImagePicker().pickImage(source: ImageSource.gallery);
-      }
-      else {
+        _aadharBack =
+            await ImagePicker().pickImage(source: ImageSource.gallery);
+      } else {
         _shopBanner =
             await ImagePicker().pickImage(source: ImageSource.gallery);
       }
@@ -370,7 +373,6 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     return response;
   }
-
 
   String? _countryDialCode = '+880';
   String? get countryDialCode => _countryDialCode;

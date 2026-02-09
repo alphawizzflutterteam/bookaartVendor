@@ -124,6 +124,7 @@ class SignInWidgetState extends State<SignInWidget> {
                 height: 50,
               ),
               LabeledTextField(
+                maxLength: 10,
                 label: "Phone",
                 hint: "Enter Phone",
                 controller: _mobileController,
@@ -322,7 +323,7 @@ class SignInWidgetState extends State<SignInWidget> {
                                   isOtpLogin: false,
                                   otp: otp)
                               .then((status) async {
-                            if (status.response!.statusCode == 200) {
+                            if (status.response?.statusCode == 200) {
                               if (authProvider.isActiveRememberMe) {
                                 authProvider.saveUserNumberAndPassword(
                                     mobile, password);

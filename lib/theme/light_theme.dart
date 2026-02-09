@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 ThemeData light = ThemeData(
   useMaterial3: false,
   fontFamily: 'TitilliumWeb',
-  primaryColor: const Color(0xFF0188D0),
+  primaryColor: const Color(0xFF3E3D9B),
   hintColor: const Color(0xff9E9E9E),
 
-  ///0xff0007a3  0xff1c4c9e
+  ///0xFF3E3D9B  0xff1c4c9e
   bottomSheetTheme:
       const BottomSheetThemeData(backgroundColor: Colors.transparent),
   brightness: Brightness.light,
@@ -16,7 +16,7 @@ ThemeData light = ThemeData(
   disabledColor: const Color(0xFF343A40),
   canvasColor: const Color(0xFFFCFCFC),
   colorScheme: const ColorScheme.light(
-      primary: Color(0xFF0188D0),
+      primary: Color(0xFF3E3D9B),
       secondary: Color(0xFFE4E4E4),
       tertiary: Color(0xFFF9D4A8),
       tertiaryContainer: Color(0xFFADC9F3),
@@ -25,8 +25,8 @@ ThemeData light = ThemeData(
       secondaryContainer: Color(0xFFF2F2F2),
       error: Color(0xFFFF5A5A),
       surface: Color(0xffbadff8),
-      // surfaceTint: Color(0xFF0007a3),
-      // onPrimary: Color(0xFF0007a3),
+      // surfaceTint: Color(0xFF3E3D9B),
+      // onPrimary: Color(0xFF3E3D9B),
       onSecondary: Color(0xFFFC9926)),
   pageTransitionsTheme: const PageTransitionsTheme(builders: {
     TargetPlatform.android: ZoomPageTransitionsBuilder(),

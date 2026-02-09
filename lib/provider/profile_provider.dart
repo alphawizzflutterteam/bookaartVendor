@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:sixvalley_vendor_app/data/model/body/seller_body.dart';
 import 'package:sixvalley_vendor_app/data/model/response/base/api_response.dart';
 import 'package:sixvalley_vendor_app/data/model/response/response_model.dart';
@@ -9,7 +11,6 @@ import 'package:sixvalley_vendor_app/data/model/response/seller_info.dart';
 import 'package:sixvalley_vendor_app/data/model/response/withdraw_model.dart';
 import 'package:sixvalley_vendor_app/data/repository/profile_repo.dart';
 import 'package:sixvalley_vendor_app/helper/api_checker.dart';
-import 'package:http/http.dart' as http;
 import 'package:sixvalley_vendor_app/localization/language_constrants.dart';
 import 'package:sixvalley_vendor_app/main.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_snackbar.dart';
@@ -39,7 +40,8 @@ class ProfileProvider with ChangeNotifier {
   List<WithdrawModel> methodList = [];
   int? methodSelectedIndex = 0;
   List<int?> methodsIds = [];
-
+  int _subscriptionStatus = 0;
+  int get subscriptionStatus => _subscriptionStatus;
   Future<ResponseModel> getSellerInfo() async {
     ResponseModel responseModel;
     ApiResponse apiResponse = await profileRepo!.getSellerInfo();
@@ -47,6 +49,8 @@ class ProfileProvider with ChangeNotifier {
         apiResponse.response!.statusCode == 200) {
       _userInfoModel = SellerModel.fromJson(apiResponse.response!.data);
       _userId = _userInfoModel!.id;
+      _subscriptionStatus = _userInfoModel!.subscription ?? 0;
+      print("jdhgshfdgfhsgfhr $_subscriptionStatus");
       await MyToken.setUserID(_userId.toString());
       await MyToken.setUserType(_userInfoModel!.type ?? '');
       _profileImage = _userInfoModel!.image;
@@ -115,14 +119,29 @@ class ProfileProvider with ChangeNotifier {
     return responseModel;
   }
 
-  Future<ResponseModel> updateUserInfo(SellerModel updateUserModel,
-      SellerBody seller, File? file, String token, String password) async {
+  Future<ResponseModel> updateUserInfo(
+    SellerModel updateUserModel,
+    SellerBody seller,
+    File? file,
+    String token,
+    String password,
+    List<File> multipleFiles,
+    List<File> pdfFiles,
+    List<String> availability, // NEW argument
+  ) async {
     _isLoading = true;
     notifyListeners();
-
+    print("deeeeeeeeedddddd $multipleFiles");
     ResponseModel responseModel;
-    http.StreamedResponse response = await profileRepo!
-        .updateProfile(updateUserModel, seller, file, token, password);
+    http.StreamedResponse response = await profileRepo!.updateProfile(
+        updateUserModel,
+        seller,
+        file,
+        token,
+        password,
+        multipleFiles,
+        pdfFiles,
+        availability);
     _isLoading = false;
     if (response.statusCode == 200) {
       String message = 'Success';

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,14 +10,12 @@ import 'package:sixvalley_vendor_app/data/model/response/booking_model.dart';
 import 'package:sixvalley_vendor_app/provider/order_provider.dart';
 import 'package:sixvalley_vendor_app/utill/app_constants.dart';
 import 'package:sixvalley_vendor_app/utill/globles.dart';
-import 'package:sixvalley_vendor_app/view/screens/Service/MyBookingModel.dart';
 import 'package:sixvalley_vendor_app/view/screens/Service/widget.dart';
 import 'package:sixvalley_vendor_app/widgets/app_dropdown.dart';
 import 'package:sixvalley_vendor_app/widgets/booking_detail_card.dart';
+
 import '../../../provider/splash_provider.dart';
-import '../../../utill/color_resources.dart';
 import '../../../utill/dimensions.dart';
-import '../../../utill/images.dart';
 import '../../../utill/styles.dart';
 import '../Service/RescheduleModel.dart';
 import 'app_token_data.dart';
@@ -42,73 +41,80 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    paymentStatus = widget.bookingData?.isPaid == 1 ? "Paid" :'Unpaid';
-    bookingStatus =
-    widget.bookingData?.status == 0
-        ? 'Pending': widget.bookingData?.status == 1
-           ? 'Confirm': widget.bookingData?.status == 2
-              ? 'Completed': widget.bookingData?.status == 4
-                 ? 'Cancelled' : 'Re-scheduled';
+    paymentStatus = widget.bookingData?.isPaid == 1 ? "Paid" : 'Unpaid';
+    bookingStatus = widget.bookingData?.status == 0
+        ? 'Pending'
+        : widget.bookingData?.status == 1
+            ? 'Confirm'
+            : widget.bookingData?.status == 2
+                ? 'Completed'
+                : widget.bookingData?.status == 4
+                    ? 'Cancelled'
+                    : 'Re-scheduled';
   }
+
   @override
   Widget build(BuildContext context) {
     final booking = widget.bookingData;
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Booking Details",
-            style: TextStyle(color: Colors.white),
-          ),
-          automaticallyImplyLeading: true,
-          elevation: 0,
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Booking Details",
+          style: TextStyle(color: Colors.white),
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200.0,
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      aspectRatio: 16 / 9,
-                      viewportFraction: 1,
-                    ),
-                    items: List<String>.from(json.decode(widget.bookingData?.service?.images ?? '[]'))
-                        .map((url) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Card(
-                            elevation: 7,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              // decoration: BoxDecoration(color: Colors.amber),
-                              child: Image.network(
-                                '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.productImageUrl}/${url}',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  bookingDetail(),
-                  customerDetail(),
-                  summary(),
-                  widget.bookingData?.status == 0 ? SizedBox() : statusAndPayment()
-
-
-
-                  /*Row(
+        automaticallyImplyLeading: true,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 200.0,
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 16 / 9,
+                viewportFraction: 1,
+              ),
+              items: List<String>.from(
+                      json.decode(widget.bookingData?.service?.images ?? '[]'))
+                  .map((url) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Card(
+                      elevation: 7,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        // decoration: BoxDecoration(color: Colors.amber),
+                        child: Image.network(
+                          '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.productImageUrl}/${url}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            bookingDetail(),
+            customerDetail(),
+            summary(),
+            SizedBox(
+              height: 10,
+            ),
+            widget.bookingData?.status == 0 ? SizedBox() : statusAndPayment(),
+            SizedBox(
+              height: 40,
+            )
+            /*Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
@@ -331,20 +337,20 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                             ],
                           ),
                         ),*/
-                ]
-                )
-              ,),),);
+          ]),
+        ),
+      ),
+    );
   }
 
- Widget bookingDetail() {
+  Widget bookingDetail() {
     return BookingCard(children: [
-
-
       const SizedBox(height: 6),
 
       /// Created Date
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children:  [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
           Text(
             'Booking ID #${widget.bookingData?.bookingId}',
             style: const TextStyle(
@@ -352,13 +358,17 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          Row(children: [
-            Icon(Icons.calendar_today, size: 14),
-            SizedBox(width: 6),
-            Text( formatDate(widget.bookingData?.createdAt, format: 'dd MMM yyyy hh:mm a'),
-              style: TextStyle(fontSize: 13),
-            ),
-          ],)
+          Row(
+            children: [
+              Icon(Icons.calendar_today, size: 14),
+              SizedBox(width: 6),
+              Text(
+                formatDate(widget.bookingData?.createdAt,
+                    format: 'dd MMM yyyy hh:mm a'),
+                style: TextStyle(fontSize: 13),
+              ),
+            ],
+          )
         ],
       ),
 
@@ -376,7 +386,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
       const SizedBox(height: 4),
 
       Row(
-        children:  [
+        children: [
           Icon(Icons.calendar_today, size: 14),
           SizedBox(width: 6),
           Text(
@@ -400,11 +410,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
       const SizedBox(height: 4),
 
       Row(
-        children:  [
+        children: [
           Icon(Icons.access_time, size: 14),
           SizedBox(width: 6),
           Text(
-             '${widget.bookingData?.bookingTime} - ${widget.bookingData?.tillTime}',
+            '${widget.bookingData?.bookingTime} - ${widget.bookingData?.tillTime}',
             style: TextStyle(fontSize: 13),
           ),
         ],
@@ -414,7 +424,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
       /// Status
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -432,64 +442,18 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
           ),
         ],
       ),
-
-      const SizedBox(height: 6),
-
-      /// Payment Method
-      Row(
-        children: [
-          SizedBox(
-            width: 150,
-            child: const Text(
-              'Payment Method: ',
-              style: TextStyle(fontSize: 13),
-            ),
-          ),
-          Text(
-            widget.bookingData?.paymentMethod ?? '',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
-            ),
-          )
-        ],
-      ),
-
-      const SizedBox(height: 6),
-
-      /// Payment Status
-      Row(
-        children:  [
-          SizedBox(
-            width: 150,
-            child: Text(
-              'Payment Status: ',
-              style: TextStyle(fontSize: 13),
-            ),
-          ),
-          Text(
-           widget.bookingData?.isPaid == 1 ? 'Paid' :'UnPaid',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: widget.bookingData?.isPaid == 1 ? Colors.green :Colors.orange,
-            ),
-          ),
-        ],
-      ),
     ]);
   }
 
-Widget customerDetail() {
+  Widget customerDetail() {
     return BookingCard(children: [
-
-
       const SizedBox(height: 6),
       Row(
-        children:  [
+        children: [
           Icon(Icons.person, size: 16),
-          SizedBox(width: 10,),
+          SizedBox(
+            width: 10,
+          ),
           Text(
             'Customer Information',
             style: const TextStyle(
@@ -497,14 +461,14 @@ Widget customerDetail() {
               fontWeight: FontWeight.w600,
             ),
           ),
-                 ],
+        ],
       ),
 
       const SizedBox(height: 20),
 
       /// Booking Date And Time
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -516,8 +480,8 @@ Widget customerDetail() {
             '${widget.bookingData?.user?.fName}${widget.bookingData?.user?.lName}',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
+              // fontWeight: FontWeight.w600,
+              color: Colors.black87,
             ),
           ),
         ],
@@ -525,7 +489,7 @@ Widget customerDetail() {
       const SizedBox(height: 6),
 
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -537,8 +501,8 @@ Widget customerDetail() {
             '${widget.bookingData?.user?.phone}',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
+              // fontWeight: FontWeight.w600,
+              color: Colors.black87,
             ),
           ),
         ],
@@ -546,7 +510,7 @@ Widget customerDetail() {
       const SizedBox(height: 6),
 
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -558,8 +522,8 @@ Widget customerDetail() {
             '${widget.bookingData?.user?.email}',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
+              // fontWeight: FontWeight.w600,
+              color: Colors.black87,
             ),
           ),
         ],
@@ -569,12 +533,9 @@ Widget customerDetail() {
 
   Widget summary() {
     return BookingCard(children: [
-
-
       const SizedBox(height: 6),
       Row(
-        children:  [
-
+        children: [
           Text(
             'Booking Summary',
             style: const TextStyle(
@@ -589,7 +550,7 @@ Widget customerDetail() {
 
       /// Booking Date And Time
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -601,8 +562,8 @@ Widget customerDetail() {
             '${widget.bookingData?.patientName}',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
+              // fontWeight: FontWeight.w600,
+              color: Colors.black87,
             ),
           ),
         ],
@@ -610,7 +571,7 @@ Widget customerDetail() {
       const SizedBox(height: 6),
 
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -622,8 +583,8 @@ Widget customerDetail() {
             '${widget.bookingData?.patientMobile}',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
+              // fontWeight: FontWeight.w600,
+              color: Colors.black87,
             ),
           ),
         ],
@@ -631,7 +592,7 @@ Widget customerDetail() {
       const SizedBox(height: 6),
 
       Row(
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -643,38 +604,38 @@ Widget customerDetail() {
             '${widget.bookingData?.patientEmail}',
             style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
+              // fontWeight: FontWeight.w600,
+              color: Colors.black87,
             ),
           ),
         ],
       ),
       const SizedBox(height: 6),
 
-      Row(
-        children:  [
-          SizedBox(
-            width: 150,
-            child: Text(
-              'Final Total: ',
-              style: TextStyle(fontSize: 13),
-            ),
-          ),
-          Text(
-            '₹${widget.bookingData?.paidAmount}',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
-            ),
-          ),
-        ],
-      ),
-      const SizedBox(height: 6),
+      // Row(
+      //   children:  [
+      //     SizedBox(
+      //       width: 150,
+      //       child: Text(
+      //         'Final Total: ',
+      //         style: TextStyle(fontSize: 13),
+      //       ),
+      //     ),
+      //     Text(
+      //       '₹${widget.bookingData?.paidAmount}',
+      //       style: TextStyle(
+      //         fontSize: 13,
+      //         fontWeight: FontWeight.w600,
+      //         color: getStatusColor(widget.bookingData?.status ?? 0),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      // const SizedBox(height: 6),
 
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:  [
+        children: [
           SizedBox(
             width: 150,
             child: Text(
@@ -687,106 +648,129 @@ Widget customerDetail() {
               '${widget.bookingData?.googleAddress}',
               style: TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: getStatusColor(widget.bookingData?.status ?? 0),
+                // fontWeight: FontWeight.w600,
+                color: Colors.black87,
               ),
             ),
           ),
         ],
       ),
-      const SizedBox(height: 6),
-
-      Row(
-        children:  [
-          Text(
-            'Note: ',
-            style: TextStyle(fontSize: 13),
-          ),
-          Text(
-            '',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: getStatusColor(widget.bookingData?.status ?? 0),
-            ),
-          ),
-        ],
-      ),
+      // const SizedBox(height: 6),
+      //
+      // Row(
+      //   children: [
+      //     Text(
+      //       'Note: ',
+      //       style: TextStyle(fontSize: 13),
+      //     ),
+      //     Text(
+      //       '',
+      //       style: TextStyle(
+      //         fontSize: 13,
+      //         // fontWeight: FontWeight.w600,
+      //         color: Colors.black87,
+      //       ),
+      //     ),
+      //   ],
+      // ),
     ]);
   }
 
-  Widget statusAndPayment(){
-    
-    return Consumer<OrderProvider>(builder: (context, provider, child) {
-      return BookingCard(children: [
-        Text(
-          'Booking Info',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        SizedBox(height: 20,),
-        Row(children: [
-          Expanded(
+  Widget statusAndPayment() {
+    return Consumer<OrderProvider>(
+      builder: (context, provider, child) {
+        return BookingCard(children: [
+          // Text(
+          //   'Booking Info',
+          //   style: const TextStyle(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Booking Status',
+                        style: robotoRegular.copyWith(
+                            fontSize: Dimensions.fontSizeDefault)),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    AppDropdown<String>(
+                        margin: EdgeInsets.all(0),
+                        items: [
+                          'Pending',
+                          'Confirm',
+                          'Completed',
+                          'Re-scheduled',
+                          'Cancelled'
+                        ],
+                        value: bookingStatus,
+                        onChanged: (value) {
+                          if (value != null) {
+                            String status = value == 'Pending'
+                                ? '0'
+                                : value == 'Confirm'
+                                    ? '1'
+                                    : value == 'Completed'
+                                        ? '2'
+                                        : value == 'Completed'
+                                            ? '4'
+                                            : '3';
+                            provider.updateBookingStatus(widget.bookingData?.id,
+                                status, context, provider.orderType);
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Booking Status',
-                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                SizedBox(height: 6,),
-                AppDropdown<String>(
-                    margin: EdgeInsets.all(0),
-                    items: ['Pending','Confirm','Completed','Re-scheduled', 'Cancelled'], value: bookingStatus, onChanged: (value){
-
-                      if(value !=null){
-
-                        String status = value=='Pending' ? '0' : value=='Confirm'? '1': value=='Completed'? '2' : value=='Completed'? '4' : '3';
-                        provider.updateBookingStatus(widget.bookingData?.id, status, context, provider.orderType);
-
-                        setState(() {
-                          bookingStatus = value ;
-                        });
-
-                      }
-
-
-                }),
-              ],),
-          ),
-          SizedBox(width: 8,),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    'Payment Status',
-                    style: robotoRegular.copyWith(
-                        fontSize: Dimensions.fontSizeDefault)),
-                SizedBox(height: 6,),
-                AppDropdown<String>(
-                    margin: EdgeInsets.all(0),
-                    items: ['Paid','Unpaid'], value: paymentStatus, onChanged: (value){
-
-                      if(value!=null){
-                        provider.updateBookingPaymentStatus(widget.bookingData?.id, value =='Paid'? '1':'0', context, provider.orderType);
-                        setState(() {
-                          paymentStatus = value ;
-                        });
-                      }else {
-
-                      }
-
-
-
-                })
-              ],),
+                            setState(() {
+                              bookingStatus = value;
+                            });
+                          }
+                        }),
+                  ],
+                ),
+              ),
+              // SizedBox(
+              //   width: 8,
+              // ),
+              // Expanded(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text('Payment Status',
+              //           style: robotoRegular.copyWith(
+              //               fontSize: Dimensions.fontSizeDefault)),
+              //       SizedBox(
+              //         height: 6,
+              //       ),
+              //       AppDropdown<String>(
+              //           margin: EdgeInsets.all(0),
+              //           items: ['Paid', 'Unpaid'],
+              //           value: paymentStatus,
+              //           onChanged: (value) {
+              //             if (value != null) {
+              //               provider.updateBookingPaymentStatus(
+              //                   widget.bookingData?.id,
+              //                   value == 'Paid' ? '1' : '0',
+              //                   context,
+              //                   provider.orderType);
+              //               setState(() {
+              //                 paymentStatus = value;
+              //               });
+              //             } else {}
+              //           })
+              //     ],
+              //   ),
+              // )
+            ],
           )
-        ],)
-      ]) ;
-    },);
-    
+        ]);
+      },
+    );
   }
 
   String getStatusText(int status) {

@@ -134,9 +134,11 @@ class ThemeChanger extends StatelessWidget {
                         title: 'Subscription_Plans',
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const SubscriptionScreen()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SubscriptionScreen(),
+                            ),
+                          );
                         },
                       );
               } else {

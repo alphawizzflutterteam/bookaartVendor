@@ -2,10 +2,10 @@ import 'package:sixvalley_vendor_app/data/model/response/language_model.dart';
 import 'package:sixvalley_vendor_app/utill/images.dart';
 
 class AppConstants {
-  static const String appName = 'BookAart Vendor';
+  static const String appName = 'BOOKAART ARTIST';
   static const String mapKey = 'AIzaSyAmJixElxZzVtD26BWhCaGC1S3HMHsGDLc';
   static const String appVersion = '1.0';
-  static const String companyName = 'BookAart Vendor';
+  static const String companyName = 'BOOKAART ARTIST';
   //static const String baseUrl = 'https://townway.alphawizzserver.com';
   static const String baseUrl = 'https://bookaart.developmentalphawizz.com';
   static const String loginUri = '/api/v3/seller/auth/login';

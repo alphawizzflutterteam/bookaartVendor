@@ -1,8 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:sixvalley_vendor_app/data/model/response/base/api_response.dart';
 import 'package:sixvalley_vendor_app/data/model/response/booking_model.dart';
@@ -71,8 +70,8 @@ class OrderProvider extends ChangeNotifier {
   File? _selectedFileForImport;
   File? get selectedFileForImport => _selectedFileForImport;
 
-  DateTime? bookingStartDate ;
-  DateTime? endDate ;
+  DateTime? bookingStartDate;
+  DateTime? endDate;
 
   void setOrderStatusErrorText(String errorText) {
     _addOrderStatusErrorText = errorText;
@@ -102,15 +101,20 @@ class OrderProvider extends ChangeNotifier {
     return apiResponse;
   }
 
-
-  Future<ApiResponse> updateBookingStatus( int? id, String? status, BuildContext context, String? type) async {
+  Future<ApiResponse> updateBookingStatus(
+      int? id, String? status, BuildContext context, String? type) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse;
     apiResponse = await orderRepo!.bookingStatus(id, status);
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-      getBookingList(context, offset, type ?? 'all', formatDate(bookingStartDate.toString()), formatDate(endDate.toString()));
+      getBookingList(
+          context,
+          offset,
+          type ?? 'all',
+          formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()));
       _isLoading = false;
       Map map = apiResponse.response!.data;
       String? message = map['message'];
@@ -125,14 +129,20 @@ class OrderProvider extends ChangeNotifier {
     return apiResponse;
   }
 
-  Future<ApiResponse> updateBookingPaymentStatus( int? id, String? status, BuildContext context, String? type) async {
+  Future<ApiResponse> updateBookingPaymentStatus(
+      int? id, String? status, BuildContext context, String? type) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse;
     apiResponse = await orderRepo!.paymentStatus(id, status);
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-      getBookingList(context, offset, type ?? 'all', formatDate(bookingStartDate.toString()), formatDate(endDate.toString()));
+      getBookingList(
+          context,
+          offset,
+          type ?? 'all',
+          formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()));
       _isLoading = false;
       Map map = apiResponse.response!.data;
       String? message = map['message'];
@@ -146,8 +156,6 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
     return apiResponse;
   }
-
-
 
   Future<void> getOrderList(BuildContext? context, int offset, String status,
       {bool reload = true}) async {
@@ -178,16 +186,24 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  Future<void> getBookingList(BuildContext? context, int offset, String status,String startDate, String endDate,
-      {bool reload = true, String? search})
-  async {
+  Future<void> getBookingList(BuildContext? context, int offset, String status,
+      String startDate, String endDate,
+      {bool reload = true, String? search}) async {
     if (reload) {
       _bookingModel = null;
     }
     _isLoading = true;
-    String status1 = status =='all' ?'': status =='pending' ?'0':status =='confirmed' ?'1':status =='completed' ?'2':'4';
-    ApiResponse apiResponse = await orderRepo!.getBookingList(offset, status1, startDate, endDate,search: search);
+    String status1 = status == 'all'
+        ? ''
+        : status == 'pending'
+            ? '0'
+            : status == 'confirmed'
+                ? '1'
+                : status == 'completed'
+                    ? '2'
+                    : '4';
+    ApiResponse apiResponse = await orderRepo!
+        .getBookingList(offset, status1, startDate, endDate, search: search);
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
       if (offset == 1) {
@@ -210,37 +226,35 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-  void selectBookingDate(String type, BuildContext context){
+  void selectBookingDate(String type, BuildContext context) {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2022),
       lastDate: DateTime(2030),
     ).then((date) {
-      if (type == 'start'){
+      if (type == 'start') {
         bookingStartDate = date;
 
-        getBookingList(context, offset, _orderType, formatDate(bookingStartDate.toString()), formatDate(endDate.toString()));
-
-      }else{
+        getBookingList(
+            context,
+            offset,
+            _orderType,
+            formatDate(bookingStartDate.toString()),
+            formatDate(endDate.toString()));
+      } else {
         endDate = date;
-        getBookingList(context, offset, _orderType, formatDate(bookingStartDate.toString()), formatDate(endDate.toString()));
-
+        getBookingList(
+            context,
+            offset,
+            _orderType,
+            formatDate(bookingStartDate.toString()),
+            formatDate(endDate.toString()));
       }
-      if(date == null){
-
-      }
+      if (date == null) {}
       notifyListeners();
     });
   }
-
-
-
-
-
 
   void setPaymentStatus(String? status) {
     _paymentStatus = status;
@@ -249,19 +263,25 @@ class OrderProvider extends ChangeNotifier {
   String _orderType = 'all';
   String get orderType => _orderType;
 
-  void setIndex(BuildContext context, int index, {bool notify = true, String search = ''}) {
+  void setIndex(BuildContext context, int index,
+      {bool notify = true, String search = ''}) {
     _orderTypeIndex = index;
     if (_orderTypeIndex == 0) {
       _orderType = 'all';
       //getOrderList(context, 1, 'all');
 
-      getBookingList(context,1,'all',formatDate(bookingStartDate.toString()),formatDate(endDate.toString()),search: search);
-
-
+      getBookingList(context, 1, 'all', formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()),
+          search: search);
     } else if (_orderTypeIndex == 1) {
       _orderType = 'pending';
-      getBookingList(context,1,'pending',formatDate(bookingStartDate.toString()),formatDate(endDate.toString()));
-     // getOrderList(context, 1, 'pending');
+      getBookingList(
+          context,
+          1,
+          'pending',
+          formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()));
+      // getOrderList(context, 1, 'pending');
     } else if (_orderTypeIndex == 2) {
       _orderType = 'processing';
       getOrderList(context, 1, 'processing');
@@ -269,9 +289,13 @@ class OrderProvider extends ChangeNotifier {
       //_orderType = 'delivered';
 
       _orderType = 'completed';
-     // getOrderList(context, 1, 'delivered');
-      getBookingList(context,1,'completed',formatDate(bookingStartDate.toString()),formatDate(endDate.toString()));
-
+      // getOrderList(context, 1, 'delivered');
+      getBookingList(
+          context,
+          1,
+          'completed',
+          formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()));
     } else if (_orderTypeIndex == 4) {
       _orderType = 'return';
       getOrderList(context, 1, 'returned');
@@ -280,13 +304,22 @@ class OrderProvider extends ChangeNotifier {
       getOrderList(context, 1, 'failed');
     } else if (_orderTypeIndex == 6) {
       _orderType = 'cancelled';
-     // getOrderList(context, 1, 'canceled');
-      getBookingList(context,1,'cancelled',formatDate(bookingStartDate.toString()),formatDate(endDate.toString()));
-
+      // getOrderList(context, 1, 'canceled');
+      getBookingList(
+          context,
+          1,
+          'cancelled',
+          formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()));
     } else if (_orderTypeIndex == 7) {
       _orderType = 'confirmed';
-      getBookingList(context,1,'confirmed',formatDate(bookingStartDate.toString()),formatDate(endDate.toString()));
-     // getOrderList(context, 1, 'confirmed');
+      getBookingList(
+          context,
+          1,
+          'confirmed',
+          formatDate(bookingStartDate.toString()),
+          formatDate(endDate.toString()));
+      // getOrderList(context, 1, 'confirmed');
     } else if (_orderTypeIndex == 8) {
       _orderType = 'out_for_delivery';
       getOrderList(context, 1, 'out_for_delivery');
@@ -457,7 +490,8 @@ class OrderProvider extends ChangeNotifier {
   }
 
   BusinessAnalyticsFilterData? _businessAnalyticsFilterData;
-  BusinessAnalyticsFilterData? get businessAnalyticsFilterData => _businessAnalyticsFilterData;
+  BusinessAnalyticsFilterData? get businessAnalyticsFilterData =>
+      _businessAnalyticsFilterData;
 
   Future<void> getAnalyticsFilterData(
       BuildContext context, String? type) async {
@@ -473,11 +507,6 @@ class OrderProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-
-
-
-
 
   bool assigning = false;
   Future<ApiResponse> assignThirdPartyDeliveryMan(BuildContext context,
@@ -508,7 +537,6 @@ class OrderProvider extends ChangeNotifier {
     ApiResponse response = await orderRepo!.getDeliveryManList();
     if (response.response!.statusCode == 200) {
       _isLoading = false;
-
 
       _deliveryManList = [];
       response.response!.data['data'].forEach((deliveryMan) =>

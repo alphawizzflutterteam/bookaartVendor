@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sixvalley_vendor_app/data/model/response/booking_model.dart';
-import 'package:sixvalley_vendor_app/data/model/response/product_model.dart';
 import 'package:sixvalley_vendor_app/provider/bank_info_provider.dart';
 import 'package:sixvalley_vendor_app/provider/delivery_man_provider.dart';
 import 'package:sixvalley_vendor_app/provider/order_provider.dart';
@@ -13,11 +12,9 @@ import 'package:sixvalley_vendor_app/utill/color_resources.dart';
 import 'package:sixvalley_vendor_app/utill/dimensions.dart';
 import 'package:sixvalley_vendor_app/utill/images.dart';
 import 'package:sixvalley_vendor_app/view/base/custom_loader.dart';
-import 'package:sixvalley_vendor_app/view/screens/home/widget/completed_order_widget.dart';
+import 'package:sixvalley_vendor_app/view/screens/Subcriptionplans/subscription_screen.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/on_going_order_widget.dart';
 import 'package:sixvalley_vendor_app/view/screens/home/widget/order_widget.dart';
-import 'package:sixvalley_vendor_app/view/screens/home/widget/stock_out_product_widget.dart';
-import 'package:sixvalley_vendor_app/view/screens/product/top_selling_product.dart';
 
 class HomePageScreen extends StatefulWidget {
   final Function? callback;
@@ -37,7 +34,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
     Provider.of<BankInfoProvider>(context, listen: false).getBankInfo(context);
     /*Provider.of<OrderProvider>(context, listen: false)
         .getOrderList(context, 1, 'all');*/
-    Provider.of<OrderProvider>(context, listen: false).getBookingList(context, 1, 'pending','','');
+    Provider.of<OrderProvider>(context, listen: false)
+        .getBookingList(context, 1, 'pending', '', '');
     Provider.of<OrderProvider>(context, listen: false)
         .getAnalyticsFilterData(context, 'overall');
     Provider.of<SplashProvider>(context, listen: false).getColorList();
@@ -60,10 +58,111 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     _loadData(context, false);
-    Provider.of<OrderProvider>(context, listen: false).setAnalyticsFilterName(context, 'overall', false);
-    Provider.of<OrderProvider>(context, listen: false).setAnalyticsFilterType(0, false);
+    Provider.of<OrderProvider>(context, listen: false)
+        .setAnalyticsFilterName(context, 'overall', false);
+    Provider.of<OrderProvider>(context, listen: false)
+        .setAnalyticsFilterType(0, false);
     Provider.of<ProfileProvider>(context, listen: false).getSellerInfo();
+    Provider.of<ProfileProvider>(context, listen: false).getSellerInfo();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.getSellerInfo();
+      if (profileProvider.subscriptionStatus == 0) {
+        showSubscribeDialog(context);
+      }
+    });
     super.initState();
+  }
+
+  void showSubscribeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Stack(
+            children: [
+              Container(
+                height: 450,
+                width: 300,
+                padding: const EdgeInsets.only(top: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                      child: Image.asset(
+                        'assets/image/subscribed.png',
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Subscribe Now',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Unlock all features and enjoy the full experience by purchase the plan',
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SubscriptionScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text('Subscribe the App Now'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: const CircleAvatar(
+                    radius: 14,
+                    backgroundColor: Colors.black87,
+                    child: Icon(
+                      Icons.close,
+                      size: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -104,7 +203,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         centerTitle: true,
                         automaticallyImplyLeading: false,
                         backgroundColor: Theme.of(context).primaryColor,
-                        title: Image.asset(Images.logoWithAppName, height: 55),
+                        title: Image.asset(Images.logoWithAppName, height: 50),
                       ),
                       SliverToBoxAdapter(
                         child: Column(
@@ -114,7 +213,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             OngoingOrderWidget(
                               callback: widget.callback,
                             ),
-                          //  CompletedOrderWidget(callback: widget.callback),
+                            //  CompletedOrderWidget(callback: widget.callback),
                             const SizedBox(height: Dimensions.paddingSizeSmall),
                             const SizedBox(
                               height: 20,
@@ -125,8 +224,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               padding: const EdgeInsets.all(0),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
+                              itemBuilder: (BuildContext context, int index) {
                                 return BookingWidget(
                                   bookingModel: bookingList![index],
                                   index: index,
@@ -139,12 +237,18 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               },
                             ),
 
-
-
-
-
-                            double.parse(Provider.of<ProfileProvider>(context, listen: false).userInfoModel!.wallet_maintain
-                                        .toString()) > double.parse(Provider.of<ProfileProvider>(context, listen: false).userInfoModel!.wallet!.totalEarning.toString())
+                            double.parse(Provider.of<ProfileProvider>(context,
+                                            listen: false)
+                                        .userInfoModel!
+                                        .wallet_maintain
+                                        .toString()) >
+                                    double.parse(Provider.of<ProfileProvider>(
+                                            context,
+                                            listen: false)
+                                        .userInfoModel!
+                                        .wallet!
+                                        .totalEarning
+                                        .toString())
                                 ? const Padding(
                                     padding: EdgeInsets.all(12.0),
                                     // child: Text(
